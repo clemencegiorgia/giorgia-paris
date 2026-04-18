@@ -1402,8 +1402,23 @@
        - installer les IntersectionObservers (nav active, fade-up)
        - initialiser les carrousels
        - brancher les interactions galerie sur chaque card produit
-    ===================================================== */
-    window.addEventListener('load', () => {
+
+       IMPORTANT : on utilise DOMContentLoaded et PAS window.load.
+       - DOMContentLoaded → déclenché dès que le HTML est parsé
+         (typiquement 100-300 ms après l'ouverture de la page).
+       - window.load → ATTEND que toutes les images soient téléchargées,
+         ce qui peut prendre 5-15 s sur un site avec 100+ photos produits.
+       Avant ce changement, les flèches des carrousels paraissaient
+       "bloquées" car carState n'était rempli qu'après le chargement
+       complet des images. Ce n'est plus le cas. */
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initInteractivity);
+    } else {
+      /* Le DOM est déjà parsé (script injecté tard) : on init immédiatement. */
+      initInteractivity();
+    }
+
+    function initInteractivity() {
       /* Observer les sections pour la nav active (tabs univers surlignés). */
       const tabs = document.querySelectorAll('.utab');
       const secIO = new IntersectionObserver(entries => {
@@ -1419,7 +1434,7 @@
 
       /* Brancher les interactions galerie (survol / clic vignettes). */
       document.querySelectorAll('.prod-card').forEach(setupProductGallery);
-    });
+    }
 
     /* ---- SCROLL ANIMATIONS ---- */
     const io = new IntersectionObserver(entries => {
