@@ -17,8 +17,8 @@
  * En GitHub Actions : la clé vient du secret AIRTABLE_API_KEY.
  * ============================================================ */
 
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { resolve } from 'node:path';
+import { readFile, writeFile, mkdir, readdir, copyFile, stat } from 'node:fs/promises';
+import { resolve, join } from 'node:path';
 
 /* ==========================================================================
    1. CONFIGURATION
@@ -604,22 +604,107 @@ function renderRobotsTxt() {
 
 function renderSitemapXml(now) {
   const lastmod = now.toISOString().split('.')[0] + '+00:00';
-  // Une seule URL pour l'instant (SPA single-page). Les anchors (#summer, etc.)
-  // ne comptent pas comme des URLs distinctes pour les moteurs.
-  // Quand on créera des pages /produits/[slug]/ dans une 2e phase, on les ajoutera ici.
+
+  // URLs du site. La home est prioritaire (1.0, changefreq=weekly).
+  // Les pages légales sont là pour le signal E-E-A-T et la conformité mais
+  // ne sont pas des pages de destination marketing → priority 0.3, rarement
+  // modifiées.
+  const urls = [
+    { loc: `${SITE_ORIGIN}/`,                      priority: '1.0', changefreq: 'weekly' },
+    { loc: `${SITE_ORIGIN}/mentions-legales/`,     priority: '0.3', changefreq: 'yearly' },
+    { loc: `${SITE_ORIGIN}/cgv/`,                  priority: '0.3', changefreq: 'yearly' },
+    { loc: `${SITE_ORIGIN}/confidentialite/`,      priority: '0.3', changefreq: 'yearly' },
+    { loc: `${SITE_ORIGIN}/politique-retour/`,     priority: '0.3', changefreq: 'yearly' },
+  ];
+
+  const body = urls.map(u => [
+    '  <url>',
+    `    <loc>${u.loc}</loc>`,
+    `    <lastmod>${lastmod}</lastmod>`,
+    `    <changefreq>${u.changefreq}</changefreq>`,
+    `    <priority>${u.priority}</priority>`,
+    '  </url>',
+  ].join('\n')).join('\n');
+
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
     '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
-    '  <url>',
-    `    <loc>${SITE_ORIGIN}/</loc>`,
-    `    <lastmod>${lastmod}</lastmod>`,
-    '    <changefreq>weekly</changefreq>',
-    '    <priority>1.0</priority>',
-    '  </url>',
+    body,
     '</urlset>',
     '',
   ].join('\n');
+}
+
+/* ==========================================================================
+   13 bis. COPIE DES PAGES LÉGALES
+   ==========================================================================
+   Source : src/legal/ (4 fichiers HTML + 1 CSS partagé)
+   Destination :
+     - dist/legal/legal-styles.css           (CSS accessible à /legal/legal-styles.css)
+     - dist/mentions-legales/index.html      (URL : /mentions-legales/)
+     - dist/cgv/index.html                   (URL : /cgv/)
+     - dist/confidentialite/index.html       (URL : /confidentialite/)
+     - dist/politique-retour/index.html      (URL : /politique-retour/)
+
+   Le mapping est volontaire : le nom de fichier source (ex.
+   "politique-confidentialite.html") n'est PAS l'URL finale (qui sera
+   "/confidentialite/") pour des raisons SEO et de lisibilité.
+*/
+
+// Mapping : nom du fichier source → nom du dossier de sortie (= URL)
+const LEGAL_PAGES_MAP = {
+  'mentions-legales.html':         'mentions-legales',
+  'cgv.html':                      'cgv',
+  'politique-confidentialite.html':'confidentialite',
+  'politique-retour.html':         'politique-retour',
+};
+
+async function copyLegalPages() {
+  const srcDir = resolve('src/legal');
+
+  // Vérifier que le dossier existe (il peut manquer si tu n'as pas encore
+  // déposé les fichiers — dans ce cas on skip sans crasher le build).
+  try {
+    await stat(srcDir);
+  } catch {
+    console.warn('⚠ src/legal/ introuvable — pages légales non déployées.');
+    console.warn('  Pour les activer, déposez les 4 HTML + le CSS dans src/legal/.');
+    return { deployed: false };
+  }
+
+  // 1. Copier la CSS partagée vers dist/legal/
+  const cssSrc = join(srcDir, 'legal-styles.css');
+  const cssDstDir = resolve(OUTPUT_DIR, 'legal');
+  const cssDst = join(cssDstDir, 'legal-styles.css');
+  try {
+    await stat(cssSrc);
+    await mkdir(cssDstDir, { recursive: true });
+    await copyFile(cssSrc, cssDst);
+    console.log(`  • CSS → /legal/legal-styles.css`);
+  } catch {
+    console.warn('  ⚠ legal-styles.css manquant dans src/legal/');
+  }
+
+  // 2. Copier chaque page HTML dans son dossier dédié
+  const deployedPages = [];
+  for (const [srcFile, outFolder] of Object.entries(LEGAL_PAGES_MAP)) {
+    const srcPath = join(srcDir, srcFile);
+    try {
+      await stat(srcPath);
+    } catch {
+      console.warn(`  ⚠ ${srcFile} manquant dans src/legal/ — page /${outFolder}/ non déployée.`);
+      continue;
+    }
+    const outDir = resolve(OUTPUT_DIR, outFolder);
+    const outPath = join(outDir, 'index.html');
+    await mkdir(outDir, { recursive: true });
+    await copyFile(srcPath, outPath);
+    deployedPages.push(outFolder);
+    console.log(`  • ${srcFile} → /${outFolder}/`);
+  }
+
+  return { deployed: true, pages: deployedPages };
 }
 
 /* ==========================================================================
@@ -825,6 +910,10 @@ async function main() {
   if (CUSTOM_DOMAIN) {
     await writeFile(resolve(OUTPUT_DIR, 'CNAME'), `${CUSTOM_DOMAIN}\n`, 'utf8');
   }
+
+  // Copie des pages légales depuis src/legal/ vers dist/ avec URLs propres.
+  console.log('→ Copie des pages légales…');
+  await copyLegalPages();
 
   await writeFile(
     resolve(OUTPUT_DIR, 'build-info.json'),
