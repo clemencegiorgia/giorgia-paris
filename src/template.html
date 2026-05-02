@@ -14,10 +14,10 @@
   <!-- ========== SEO — CANONICAL & LANGUE ==========
        Canonical : indique à Google l'URL "officielle" et évite le duplicate content.
        hreflang : déclare la langue principale et la langue par défaut. -->
-  <link rel="canonical" href="<!-- SITE_ORIGIN -->/">
-  <link rel="alternate" hreflang="fr" href="<!-- SITE_ORIGIN -->/">
-  <link rel="alternate" hreflang="fr-FR" href="<!-- SITE_ORIGIN -->/">
-  <link rel="alternate" hreflang="x-default" href="<!-- SITE_ORIGIN -->/">
+  <link rel="canonical" href="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/">
+  <link rel="alternate" hreflang="fr" href="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/">
+  <link rel="alternate" hreflang="fr-FR" href="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/">
+  <link rel="alternate" hreflang="x-default" href="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/">
 
   <!-- ========== SEO — FAVICON (SVG inline, aucun fichier à uploader) ==========
        "G" doré sur crème, cohérent avec la charte. -->
@@ -27,10 +27,10 @@
        Jolies cartes quand le site est partagé sur WhatsApp, LinkedIn, Instagram DM, etc. -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="GIORGIA paris">
-  <meta property="og:url" content="<!-- SITE_ORIGIN -->/">
+  <meta property="og:url" content="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/">
   <meta property="og:title" content="GIORGIA paris — Grossiste Prêt-à-Porter Féminin Paris">
   <meta property="og:description" content="Collection Printemps-Été 2026 pour boutiques indépendantes. Minimum 100€ HT, livraison rapide depuis Paris.">
-  <meta property="og:image" content="https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg?auto=compress&cs=tinysrgb&w=1200">
+  <meta property="og:image" content="<!-- HERO_IMAGE_URL -->">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:locale" content="fr_FR">
@@ -38,7 +38,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GIORGIA paris — Grossiste Prêt-à-Porter Féminin Paris">
   <meta name="twitter:description" content="Collection PE 2026 pour boutiques. Min. 100€ HT, livraison rapide depuis Paris.">
-  <meta name="twitter:image" content="https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg?auto=compress&cs=tinysrgb&w=1200">
+  <meta name="twitter:image" content="<!-- HERO_IMAGE_URL -->">
 
   <!-- ========== DONNÉES STRUCTURÉES (JSON-LD) ==========
        Injectées au build par scripts/build.mjs : Organization + WebSite + ItemList
@@ -50,10 +50,9 @@
        On force aussi un resize à 1600px pour éviter de télécharger l'original
        de plusieurs Mo. Pexels supporte les query params ?w=...&auto=compress. -->
   <link rel="preload" as="image"
-        href="https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg?auto=compress&cs=tinysrgb&w=1600"
+        href="<!-- HERO_IMAGE_URL -->"
         fetchpriority="high">
-  <link rel="preconnect" href="https://images.pexels.com" crossorigin>
-
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- PATCH WEBPERF : preconnect vers les CDN Airtable qui servent les images.
@@ -204,7 +203,7 @@
       /* PATCH WEBPERF : on ajoute ?auto=compress&w=1600 pour ne plus
          télécharger l'original full-resolution. L'URL doit matcher celle
          du <link rel="preload"> dans <head> pour déclencher un HIT de cache. */
-      background: url('https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg?auto=compress&cs=tinysrgb&w=1600') center center / cover no-repeat;
+      background: url('<!-- HERO_IMAGE_URL -->') center center / cover no-repeat;
       filter: brightness(.62);
     }
     .hero-grad {
@@ -1176,13 +1175,13 @@
 
     <!-- Liens légaux : signal E-E-A-T pour Google + conformité LCEN / RGPD -->
     <nav class="foot-legal" aria-label="Informations légales">
-      <a href="/mentions-legales/">Mentions légales</a>
+      <a href="<!-- SITE_BASE -->/mentions-legales/">Mentions légales</a>
       <span class="sep" aria-hidden="true">·</span>
-      <a href="/cgv/">CGV</a>
+      <a href="<!-- SITE_BASE -->/cgv/">CGV</a>
       <span class="sep" aria-hidden="true">·</span>
-      <a href="/confidentialite/">Politique de confidentialité</a>
+      <a href="<!-- SITE_BASE -->/confidentialite/">Politique de confidentialité</a>
       <span class="sep" aria-hidden="true">·</span>
-      <a href="/politique-retour/">Politique de retour</a>
+      <a href="<!-- SITE_BASE -->/politique-retour/">Politique de retour</a>
     </nav>
 
     <div class="foot-bottom">
@@ -1364,35 +1363,60 @@
       const mainImg = card.querySelector('img.prod-img-primary');
       if (!mainImg) return;
 
+      // Le <source> WebP du <picture> doit être swappé en parallèle du <img>,
+      // sinon les navigateurs modernes (qui supportent WebP) continuent
+      // d'afficher l'image initiale même si on change le src du <img>.
+      const picture = mainImg.closest('picture');
+      const sourceEl = picture ? picture.querySelector('source[type="image/webp"]') : null;
+
       const thumbs = Array.from(card.querySelectorAll('.prod-thumb'));
-      const thumbUrls = thumbs.map(function (sp) {
+      // Pour chaque vignette : on récupère son src JPEG (depuis l'<img>) et
+      // son URL WebP (depuis l'attribut data-webp du <span> conteneur).
+      const thumbData = thumbs.map(function (sp) {
         const im = sp.querySelector('img');
-        return im ? im.getAttribute('src') : '';
+        return {
+          jpg: im ? im.getAttribute('src') : '',
+          webp: sp.getAttribute('data-webp') || '',
+        };
       });
-      const hoverUrl = mainImg.getAttribute('data-hover-url') || '';
-      const mainInitialSrc = mainImg.getAttribute('src');
+      const hoverJpg = mainImg.getAttribute('data-hover-url') || '';
+      const hoverWebp = mainImg.getAttribute('data-hover-webp') || '';
+      const mainInitialJpg = mainImg.getAttribute('src');
+      const mainInitialWebp = sourceEl ? sourceEl.getAttribute('srcset') : '';
 
       let selectedIdx = 0;
 
+      /** Met à jour l'image visible. Doit modifier <source srcset> ET <img src>
+       *  pour que le swap fonctionne sur tous les navigateurs (WebP + fallback). */
+      function setMainImage(jpg, webp) {
+        if (jpg) mainImg.src = jpg;
+        if (sourceEl && webp) sourceEl.srcset = webp;
+      }
+
       function applyMain(i) {
-        const url = thumbUrls[i];
-        if (!url) return;
-        mainImg.src = url;
+        const t = thumbData[i];
+        if (!t || !t.jpg) return;
+        setMainImage(t.jpg, t.webp || t.jpg);
         thumbs.forEach(function (el, j) {
           el.classList.toggle('is-active', j === i);
         });
       }
 
       /* Hover sur la grande image : montre la photo "Photos2" si définie. */
-      if (hoverUrl && hoverUrl !== mainInitialSrc) {
+      if (hoverJpg && hoverJpg !== mainInitialJpg) {
         mainImg.addEventListener('mouseenter', function () {
           mainImg.setAttribute('data-giorgia-swap', '1');
-          mainImg.src = hoverUrl;
+          setMainImage(hoverJpg, hoverWebp || hoverJpg);
         });
         mainImg.addEventListener('mouseleave', function () {
           if (!mainImg.hasAttribute('data-giorgia-swap')) return;
           mainImg.removeAttribute('data-giorgia-swap');
-          applyMain(selectedIdx);
+          // Restaurer l'image actuellement sélectionnée (initiale ou autre vignette)
+          if (selectedIdx === 0 && thumbData.length === 0) {
+            setMainImage(mainInitialJpg, mainInitialWebp);
+          } else {
+            applyMain(selectedIdx);
+          }
         });
       }
 
