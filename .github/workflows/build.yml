@@ -68,12 +68,15 @@ jobs:
           AIRTABLE_BASE_ID: ${{ vars.AIRTABLE_BASE_ID }}
           AIRTABLE_TABLE_NAME: ${{ vars.AIRTABLE_TABLE_NAME }}
           CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
-          # BASE_PATH : préfixe d'URL pour la qualif (sirivie.github.io/<repo>/)
-          # En prod (CUSTOM_DOMAIN défini), reste vide. En qualif, c'est le nom du repo.
-          BASE_PATH: ${{ vars.CUSTOM_DOMAIN && '' || format('/{0}', github.event.repository.name) }}
-          # GITHUB_PAGES_ORIGIN : sert pour les URLs canoniques en qualif
-          # (sitemap.xml, og:url, JSON-LD). Pas utilisé en prod.
-          GITHUB_PAGES_ORIGIN: ${{ vars.CUSTOM_DOMAIN && '' || format('https://{0}.github.io', github.repository_owner) }}
+          # On fournit toujours ces valeurs ; build.mjs décide quoi en faire :
+          #   • si CUSTOM_DOMAIN est défini → considère qu'on est en prod,
+          #     ignore BASE_PATH (préfixe vide) et utilise le domaine custom.
+          #   • sinon → applique BASE_PATH = '/<repo>' et utilise github.io.
+          # Cette logique côté Node évite les pièges de l'évaluation "truthy/falsy"
+          # des expressions GitHub Actions (où '' est falsy → impossible de
+          # forcer une valeur vide via X && '' || Y).
+          REPO_NAME: ${{ github.event.repository.name }}
+          REPO_OWNER: ${{ github.repository_owner }}
         run: node scripts/build.mjs
 
       - name: Déploiement sur la branche gh-pages
