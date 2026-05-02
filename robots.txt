@@ -16,4 +16,4 @@ Allow: /
 # User-agent: GPTBot
 # Disallow: /
 
-Sitemap: https://giorgiaparis.com/sitemap.xml
+Sitemap: https://giorgiaparis.com/giorgia-paris/sitemap.xml
