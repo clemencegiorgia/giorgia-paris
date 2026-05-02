@@ -30,34 +30,38 @@ const API_KEY = process.env.AIRTABLE_API_KEY;
 const BASE_ID = process.env.AIRTABLE_BASE_ID || 'appXLBhHlXD2MCMUj';
 const TABLE_NAME = process.env.AIRTABLE_TABLE_NAME || 'Catalogue';
 
-// Domaine personnalisé pour GitHub Pages. Définir la variable CUSTOM_DOMAIN
-// UNIQUEMENT sur le repo de production. En pré-prod, laisser vide : le site
-// sera servi à l'URL par défaut github.io et ne volera pas le domaine à la prod.
+// Domaine personnalisé pour GitHub Pages. Défini comme variable de repo
+// `CUSTOM_DOMAIN` UNIQUEMENT sur le repo de production. En qualif, laisser
+// vide : le site sera servi à l'URL par défaut <user>.github.io/<repo>/.
 const CUSTOM_DOMAIN = process.env.CUSTOM_DOMAIN || '';
 
-// BASE_PATH : sous-chemin sous lequel le site est servi. À utiliser en
-// environnement de qualif où GitHub Pages sert depuis "<user>.github.io/<repo>".
-//   • Prod (giorgiaparis.com)              → BASE_PATH non défini → ''
-//   • Qualif (sirivie.github.io/giorgia-paris-vitrinePE2026)
-//                                          → BASE_PATH='/giorgia-paris-vitrinePE2026'
-//
-// Toutes les URLs absolues du site (images, pages légales, CSS) seront
-// préfixées par BASE_PATH. Sans cette variable, les liens "/img/..." casseraient
-// en qualif car ils pointeraient vers la racine du domaine github.io.
-const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
+// Variables fournies systématiquement par le workflow (REPO_NAME, REPO_OWNER).
+// On les utilise uniquement quand CUSTOM_DOMAIN est vide → mode qualif.
+const REPO_NAME  = process.env.REPO_NAME  || '';
+const REPO_OWNER = process.env.REPO_OWNER || '';
 
-// Origine du site (https://...). Sert pour le sitemap, JSON-LD, og:url, etc.
-// Si CUSTOM_DOMAIN est défini → on utilise ce domaine.
-// Sinon, si BASE_PATH est défini → on déduit l'URL github.io standard.
-// Sinon → fallback prod par défaut.
-const SITE_ORIGIN = CUSTOM_DOMAIN
+// =============================================================
+//  DÉTECTION D'ENVIRONNEMENT — basée UNIQUEMENT sur CUSTOM_DOMAIN.
+//  Cette logique est volontairement faite côté Node (et pas dans
+//  build.yml) car les expressions GitHub Actions ont un piège avec
+//  les chaînes vides : `X && '' || Y` retourne toujours Y, parce que
+//  '' est falsy. Ici, en JavaScript, on a un vrai if/else propre.
+// =============================================================
+const IS_PROD = CUSTOM_DOMAIN !== '';
+
+// SITE_ORIGIN : l'origine HTTPS où le site sera servi.
+//   • Prod   → https://<CUSTOM_DOMAIN>          (ex. https://giorgiaparis.com)
+//   • Qualif → https://<REPO_OWNER>.github.io   (ex. https://sirivie.github.io)
+const SITE_ORIGIN = IS_PROD
   ? `https://${CUSTOM_DOMAIN}`
-  : (process.env.GITHUB_PAGES_ORIGIN || 'https://giorgiaparis.com');
+  : (REPO_OWNER ? `https://${REPO_OWNER}.github.io` : 'https://giorgiaparis.com');
 
-// SITE_BASE : préfixe à appliquer aux URLs internes (chemins absolus du site).
-// Concaténé à SITE_ORIGIN pour les URLs canoniques (sitemap.xml, og:url),
-// et utilisé seul pour les chemins relatifs au domaine (src d'images, href de liens).
-const SITE_BASE = BASE_PATH;        // ex. '' en prod, '/giorgia-paris-vitrinePE2026' en qualif
+// SITE_BASE : préfixe d'URL à appliquer aux chemins absolus internes
+// (`/img/...`, `/cgv/`, etc.). En prod c'est vide ; en qualif c'est le
+// nom du repo, parce que GitHub Pages sert depuis <owner>.github.io/<repo>/.
+//   • Prod   → ''
+//   • Qualif → '/<REPO_NAME>'  (ex. '/giorgia-paris-vitrinePE2026')
+const SITE_BASE = IS_PROD ? '' : (REPO_NAME ? `/${REPO_NAME}` : '');
 
 const TEMPLATE_PATH = resolve('src/template.html');
 const OUTPUT_DIR = resolve('dist');
