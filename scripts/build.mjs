@@ -35,10 +35,40 @@ const TABLE_NAME = process.env.AIRTABLE_TABLE_NAME || 'Catalogue';
 // vide : le site sera servi à l'URL par défaut <user>.github.io/<repo>/.
 const CUSTOM_DOMAIN = process.env.CUSTOM_DOMAIN || '';
 
-// Variables fournies systématiquement par le workflow (REPO_NAME, REPO_OWNER).
-// On les utilise uniquement quand CUSTOM_DOMAIN est vide → mode qualif.
-const REPO_NAME  = process.env.REPO_NAME  || '';
-const REPO_OWNER = process.env.REPO_OWNER || '';
+// =============================================================
+//  AUTO-DÉTECTION REPO_NAME / REPO_OWNER
+//  -----------------------------------------------------------
+//  Priorité 1 : variables explicites du workflow (REPO_NAME / REPO_OWNER).
+//  Priorité 2 : variables natives GitHub Actions, TOUJOURS définies dans
+//               un run Actions :
+//                 - GITHUB_REPOSITORY        = "owner/repo"
+//                 - GITHUB_REPOSITORY_OWNER  = "owner"
+//  Cette redondance évite que le site casse si le workflow oublie d'injecter
+//  REPO_NAME / REPO_OWNER (cas observé : SITE_BASE = '' → toutes les images
+//  pointent vers /img/... au lieu de /<repo>/img/... → 404 partout).
+// =============================================================
+function deriveRepoInfo() {
+  const explicitName  = process.env.REPO_NAME  || '';
+  const explicitOwner = process.env.REPO_OWNER || '';
+
+  // GITHUB_REPOSITORY a la forme "owner/repo"
+  const ghRepo = process.env.GITHUB_REPOSITORY || '';
+  const ghOwner = process.env.GITHUB_REPOSITORY_OWNER || '';
+
+  let name = explicitName;
+  let owner = explicitOwner;
+
+  if (!name && ghRepo.includes('/')) {
+    name = ghRepo.split('/').slice(1).join('/');
+  }
+  if (!owner) {
+    owner = ghOwner || (ghRepo.split('/')[0] || '');
+  }
+
+  return { name, owner };
+}
+
+const { name: REPO_NAME, owner: REPO_OWNER } = deriveRepoInfo();
 
 // =============================================================
 //  DÉTECTION D'ENVIRONNEMENT — basée UNIQUEMENT sur CUSTOM_DOMAIN.
@@ -62,6 +92,16 @@ const SITE_ORIGIN = IS_PROD
 //   • Prod   → ''
 //   • Qualif → '/<REPO_NAME>'  (ex. '/giorgia-paris-vitrinePE2026')
 const SITE_BASE = IS_PROD ? '' : (REPO_NAME ? `/${REPO_NAME}` : '');
+
+// Garde-fou : si on est en qualif sans REPO_NAME détecté, on échoue tôt
+// avec un message clair plutôt que de produire un build cassé silencieux.
+if (!IS_PROD && !REPO_NAME) {
+  console.warn(
+    '⚠ ATTENTION : mode qualif sans REPO_NAME détecté.\n' +
+    '  Les chemins d\'images vont être servis depuis la racine, ce qui cassera tout en GitHub Pages.\n' +
+    '  Vérifie que le job tourne bien dans GitHub Actions (GITHUB_REPOSITORY est-il défini ?)'
+  );
+}
 
 const TEMPLATE_PATH = resolve('src/template.html');
 const OUTPUT_DIR = resolve('dist');
@@ -108,7 +148,7 @@ const UNIVERS = [
     label: 'Summer Vibes',
     sub: 'Légèreté, couleur & féminité solaire',
     desc: 'Des pièces qui capturent l\u2019essence de l\u2019été : matières fluides, imprimés vivants, silhouettes libres. Un univers à fort potentiel de vente.',
-    insertBannerAfter: true,
+    insertWaCatalogueAfter: true, // Encart "Tous nos modèles..." (WhatsApp) après Summer Vibes
   },
   {
     id: 'working',
@@ -117,6 +157,7 @@ const UNIVERS = [
     label: 'Urban Woman',
     sub: 'Élégance, confiance & polyvalence au quotidien.',
     desc: 'Une sélection conçue pour la femme active contemporaine. Du bureau au week-end, découvrez des basiques surélevés et des pièces fluides qui s\u2019adaptent à toutes ses vies.',
+    insertBannerAfter: true, // Encart "Vêtir les boutiques..." (doré) après Urban Woman
   },
   {
     id: 'chic',
@@ -272,6 +313,24 @@ function resolveCategorie(f) {
   if (Array.isArray(raw)) return raw[0] ? String(raw[0]).trim() : '';
   if (typeof raw === 'object' && raw !== null && raw.name) return String(raw.name).trim();
   return String(raw || '').trim();
+}
+
+/**
+ * Résout le champ « Prévente » d'Airtable (case à cocher).
+ * Retourne true si le produit est en prévente (case cochée), false sinon.
+ * Tolère plusieurs noms possibles pour faciliter la maintenance.
+ */
+function resolvePrevente(f) {
+  if (!f) return false;
+  const keys = ['Prévente', 'Prevente', 'Pre-vente', 'PreVente', 'PREVENTE'];
+  for (const k of keys) {
+    if (k in f) {
+      const v = f[k];
+      // Airtable case à cocher renvoie true / false / undefined
+      return v === true || v === 'true' || v === 1 || v === '1';
+    }
+  }
+  return false;
 }
 
 function resolveBadge(f, n) {
@@ -696,6 +755,159 @@ function renderProductCard(fields, isPriority, univ) {
 
   h += `</a>`;
   return h;
+}
+
+/* ==========================================================================
+   8 bis. RENDU DE LA SECTION PRÉVENTES
+   ==========================================================================
+   Section spéciale rendue en HAUT de la home (après le hero, avant l'intro).
+   Filtre les produits dont le champ Airtable « Prévente » est coché.
+   Aucune limite stricte sur le nombre : le carrousel s'adapte dynamiquement.
+
+   Identité visuelle : bande contrastée bleu pétrole + accent bordeaux mode.
+   Badge spécial « PRÉVENTE » sur chaque card, visuel distinct des cards univers.
+   ========================================================================== */
+
+/**
+ * Card produit version « Prévente » : structure très proche de renderProductCard
+ * mais avec un badge dédié et une classe CSS qui permet le styling spécifique
+ * (cadre clair sur fond sombre, badge bordeaux).
+ */
+function renderPreventeCard(fields, isPriority) {
+  const nom = resolveName(fields);
+  const ref = resolveRef(fields);
+  const desc = resolveDesc(fields);
+  const href = resolveHref(fields);
+  const photos = resolvePhotos(fields);
+  const hoverUrl = resolveHoverUrl(fields);
+
+  if (!photos.length) return ''; // Pas de photo = pas de card
+
+  const mainSrc = photos[0];
+  const altBase = (nom || ref || 'Produit').trim();
+  const altMain = ref
+    ? `${altBase} — Réf. ${ref} — Prévente — Grossiste GIORGIA paris`
+    : `${altBase} — Prévente — Grossiste GIORGIA paris`;
+
+  const mainLocal = localImageFor(mainSrc);
+  const mainDisplayUrl = mainLocal ? mainLocal.jpg : mainSrc;
+
+  const hoverLocal = hoverUrl ? localImageFor(hoverUrl) : null;
+  const hoverDisplayUrl = hoverLocal ? hoverLocal.jpg : hoverUrl;
+  const dataHover = hoverDisplayUrl && hoverDisplayUrl !== mainDisplayUrl
+    ? ` data-hover-url="${esc(hoverDisplayUrl)}"` : '';
+
+  const hoverWebp = hoverLocal ? hoverLocal.webp : '';
+  const dataHoverWebp = hoverWebp && hoverWebp !== (mainLocal && mainLocal.webp)
+    ? ` data-hover-webp="${esc(hoverWebp)}"` : '';
+
+  const loading = isPriority ? 'eager' : 'lazy';
+  const fetchprio = isPriority ? ' fetchpriority="high"' : '';
+  const dims = mainLocal ? ` width="${mainLocal.width}" height="${mainLocal.height}"` : '';
+
+  let h = '';
+  h += `<a class="prod-card prevente-card" target="_blank" rel="noopener noreferrer" href="${esc(href)}">`;
+  h += `<div class="prod-media">`;
+  h += `<div class="prod-img">`;
+
+  h += `<picture>`;
+  if (mainLocal) {
+    h += `<source srcset="${esc(mainLocal.webp)}" type="image/webp">`;
+  }
+  h += `<img class="prod-img-primary" src="${esc(mainDisplayUrl)}" alt="${esc(altMain)}" loading="${loading}"${fetchprio} decoding="async"${dims}${dataHover}${dataHoverWebp}>`;
+  h += `</picture>`;
+
+  // Badge spécial PRÉVENTE (toujours présent, écrase la logique badge classique)
+  h += `<div class="prod-badges">`;
+  h += `<div class="prod-badge prod-badge--prevente">Prévente</div>`;
+  h += `</div>`;
+
+  h += `<div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>`;
+  h += `</div>`; // .prod-img
+  h += `</div>`; // .prod-media
+
+  h += `<div class="prod-info">`;
+  h += `<h3 class="prod-name">${esc(nom || '(Sans nom)')}</h3>`;
+  if (ref) h += `<p class="prod-ref">Réf. ${esc(ref)}</p>`;
+  if (desc) h += `<p class="prod-desc">${esc(desc)}</p>`;
+  h += `</div>`;
+
+  h += `</a>`;
+  return h;
+}
+
+/**
+ * Section Prévente complète : bande contrastée + en-tête + carrousel horizontal.
+ * Si aucun produit n'est en prévente, renvoie une chaîne vide → la section
+ * disparaît proprement de la page (pas de bande vide).
+ */
+function renderPreventeSection(records) {
+  if (!records.length) return ''; // Aucune prévente cochée → on n'affiche rien
+
+  let h = '';
+  h += `<section class="prevente-sec" id="preventes" style="scroll-margin-top:130px" aria-labelledby="title-preventes">`;
+  h += `<div class="prevente-inner">`;
+
+  // En-tête
+  h += `<div class="prevente-hdr">`;
+  h += `<div class="prevente-hdr-text">`;
+  h += `<span class="prevente-pill"><span class="prevente-dot"></span>Préventes — Stock disponible</span>`;
+  h += `<h2 class="prevente-title" id="title-preventes">Découvrez nos dernières pièces sortie d&rsquo;usine en préventes !</h2>`;
+  h += `<p class="prevente-sub">Pièces fraîchement sorties de l&rsquo;atelier — livraison immédiate depuis notre stock parisien.</p>`;
+  h += `</div>`;
+  h += `<a class="prevente-cta" href="https://wa.me/33686729311?text=${encodeURIComponent('Bonjour GIORGIA paris, je souhaite des informations sur les produits en prévente.')}" target="_blank" rel="noopener noreferrer">Commander sur WhatsApp →</a>`;
+  h += `</div>`;
+
+  // Carrousel — réutilise les classes existantes mais avec data-carousel="preventes"
+  h += `<div class="carousel-outer" data-carousel="preventes">`;
+  h += `<button class="car-btn car-btn-prev" aria-label="Produit précédent" onclick="carMove('preventes',-1)">&#8592;</button>`;
+  h += `<button class="car-btn car-btn-next" aria-label="Produit suivant" onclick="carMove('preventes',1)">&#8594;</button>`;
+  h += `<div class="carousel-clip">`;
+  h += `<div class="carousel-track" id="track-preventes">`;
+  h += `<div id="grid-preventes" class="catalog-grid-root">`;
+
+  // Les 4 premières en priorité de chargement (au-dessus de la ligne de flottaison)
+  records.forEach((rec, i) => {
+    h += renderPreventeCard(rec.fields || {}, i < 4);
+  });
+
+  h += `</div>`; // grid
+  h += `</div>`; // track
+  h += `</div>`; // clip
+  h += `<div class="car-dots" id="dots-preventes"></div>`;
+  h += `</div>`; // carousel-outer
+
+  h += `</div>`; // prevente-inner
+  h += `</section>`;
+  return h;
+}
+
+/* ==========================================================================
+   8 ter. RENDU DE L'ENCART WHATSAPP « CATALOGUE ÉTENDU »
+   ==========================================================================
+   Encart éditorial inséré au milieu de la home, entre deux univers.
+   Message clé : tous les produits ne sont pas en ligne → contact WhatsApp.
+   ========================================================================== */
+
+function renderWhatsAppCatalogue() {
+  const waUrl =
+    'https://wa.me/33686729311?text=' +
+    encodeURIComponent('Bonjour GIORGIA paris, je souhaite découvrir le catalogue complet (modèles non visibles sur le site).');
+  return [
+    '<section class="wa-catalog" aria-labelledby="wa-catalog-title">',
+    '<div class="wa-catalog-inner">',
+    '<div class="wa-catalog-icon" aria-hidden="true">',
+    // Icône WhatsApp en SVG inline (pas de dépendance externe)
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>',
+    '</div>',
+    '<div class="wa-catalog-text">',
+    '<h3 id="wa-catalog-title">Tous nos modèles ne sont pas en ligne</h3>',
+    '<p>Notre catalogue compte plus de références que ce qui est présenté ici. Contactez-nous sur WhatsApp pour découvrir l&rsquo;intégralité de la collection PE 2026.</p>',
+    '</div>',
+    `<a class="wa-catalog-cta" href="${waUrl}" target="_blank" rel="noopener noreferrer">Découvrir le catalogue complet</a>`,
+    '</div>',
+    '</section>',
+  ].join('');
 }
 
 /* ==========================================================================
@@ -1176,7 +1388,9 @@ async function main() {
   const t0 = Date.now();
 
   console.log(`→ Airtable : ${BASE_ID} / ${TABLE_NAME}`);
+  console.log(`→ Mode : ${IS_PROD ? 'PROD' : 'QUALIF'}`);
   console.log(`→ Site origin : ${SITE_ORIGIN}`);
+  console.log(`→ Site base   : '${SITE_BASE}' ${SITE_BASE ? '' : '(racine)'}`);
   console.log('→ Récupération des enregistrements…');
   const records = await fetchAllRecords();
   console.log(`✓ ${records.length} produits récupérés.`);
@@ -1231,14 +1445,32 @@ async function main() {
     console.log(`  • ${u.label} : ${byUnivers.get(u.id).length} produits`);
   }
 
+  // ===================================================================
+  //  PRÉVENTES : produits avec champ Airtable « Prévente » coché.
+  //  On garde l'ordre d'origine (tri par « Ordre » fait plus haut).
+  //  Aucune limite stricte sur le nombre — le carrousel s'adapte.
+  // ===================================================================
+  const preventeRecords = sortedRecords.filter(rec => resolvePrevente(rec.fields || {}));
+  console.log(`  • Préventes : ${preventeRecords.length} produits`);
+
   // Rendu des sections
   console.log('→ Rendu du HTML…');
+  // Section Préventes (en tête de home, après le hero)
+  const preventesHtml = renderPreventeSection(preventeRecords);
+  // Encart WhatsApp catalogue étendu (placement piloté par le flag
+  // insertWaCatalogueAfter sur l'univers concerné — actuellement Summer Vibes).
+  const waCatalogueHtml = renderWhatsAppCatalogue();
+
   let sectionsHtml = '';
   for (const u of UNIVERS) {
     const recs = byUnivers.get(u.id) || [];
     sectionsHtml += renderUniversSection(u, recs);
-    if (u.insertBannerAfter) sectionsHtml += renderFeatBanner();
-    if (u.insertEditorialAfter) sectionsHtml += renderEditorial();
+    // Les flags sont évalués dans cet ordre. Un même univers pourrait
+    // (en théorie) avoir plusieurs encarts derrière lui ; en pratique
+    // un seul flag est posé par univers pour rester lisible.
+    if (u.insertWaCatalogueAfter) sectionsHtml += waCatalogueHtml;
+    if (u.insertBannerAfter)      sectionsHtml += renderFeatBanner();
+    if (u.insertEditorialAfter)   sectionsHtml += renderEditorial();
   }
 
   // JSON-LD
@@ -1267,6 +1499,7 @@ async function main() {
     ['<!-- UNIVERS_NAV_TABS -->', renderUniversTabs()],
     ['<!-- NAV_LINKS -->', renderNavLinks()],
     ['<!-- MOB_MENU_LINKS -->', renderMobMenuLinks()],
+    ['<!-- PREVENTES_SECTION -->', preventesHtml],
     ['<!-- UNIVERS_SECTIONS -->', sectionsHtml],
     ['<!-- JSON_LD -->', jsonLdHtml],
     ['<!-- CATALOG_DATA -->', catalogDataScript],
