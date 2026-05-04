@@ -1821,6 +1821,10 @@ async function renderArticlePage(article, productIndex, allRecords) {
   return {
     slug: article.slug,
     title: article.title,
+    chapo: article.chapo,
+    categorie: article.categorie || 'Non catégorisé',
+    date_publication: article.date_publication,
+    hero_image_url: heroImageUrl,
     url: articleUrl,
     productsResolved: resolvedProducts.length,
     productsMissing: missing.length,
