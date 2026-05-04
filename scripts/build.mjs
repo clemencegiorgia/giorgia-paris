@@ -1151,7 +1151,7 @@ function renderRobotsTxt() {
   ].join('\n');
 }
 
-function renderSitemapXml(now) {
+function renderSitemapXml(now, articlesData = []) {
   const lastmod = now.toISOString().split('.')[0] + '+00:00';
 
   // URLs du site. La home est prioritaire (1.0, changefreq=weekly).
@@ -1165,6 +1165,24 @@ function renderSitemapXml(now) {
     { loc: `${SITE_ORIGIN}${SITE_BASE}/confidentialite/`,      priority: '0.3', changefreq: 'yearly' },
     { loc: `${SITE_ORIGIN}${SITE_BASE}/politique-retour/`,     priority: '0.3', changefreq: 'yearly' },
   ];
+
+  // Ajouter la page hub des articles si des articles existent
+  if (articlesData.length > 0) {
+    urls.push({
+      loc: `${SITE_ORIGIN}${SITE_BASE}${ARTICLE_URL_PREFIX}/`,
+      priority: '0.9',
+      changefreq: 'monthly'
+    });
+
+    // Ajouter chaque article
+    for (const article of articlesData) {
+      urls.push({
+        loc: `${SITE_ORIGIN}${SITE_BASE}${ARTICLE_URL_PREFIX}/${article.slug}/`,
+        priority: '0.8',
+        changefreq: 'weekly'
+      });
+    }
+  }
 
   const body = urls.map(u => [
     '  <url>',
@@ -1869,6 +1887,86 @@ async function buildArticles(allRecords) {
   return { deployed: true, count: generatedArticles.length, articles: generatedArticles };
 }
 
+/**
+ * Génère la page index `/tendances-conseils-pro/index.html`
+ * Affiche tous les articles avec filtres par catégorie et pagination.
+ */
+async function buildArticlesIndex(generatedArticles) {
+  if (!generatedArticles || generatedArticles.length === 0) {
+    console.warn('  ⚠ Aucun article à indexer — page hub non déployée.');
+    return { deployed: false };
+  }
+
+  console.log('→ Génération de la page hub `/tendances-conseils-pro/`…');
+
+  // Lire le template hub
+  const templatePath = resolve('src/articles/index-template.html');
+  let hubHtml;
+  try {
+    hubHtml = await readFile(templatePath, 'utf8');
+  } catch (err) {
+    console.error(`  ✖ Template hub introuvable : ${templatePath}`);
+    return { deployed: false };
+  }
+
+  // Extraire les catégories uniques et les trier
+  const categories = new Set(generatedArticles.map(a => a.categorie).filter(Boolean));
+  const sortedCategories = Array.from(categories).sort();
+
+  // Générer les boutons de filtre
+  let filterButtonsHtml = '';
+  for (const cat of sortedCategories) {
+    const filterValue = cat.toLowerCase().replace(/\s+/g, '-');
+    filterButtonsHtml += `<button class="hub-filter-btn" data-filter="${esc(filterValue)}">${esc(cat)}</button>\n          `;
+  }
+
+  // Générer les cartes articles (avec data-article-category pour le filtre côté client)
+  let articlesCardsHtml = '';
+  for (const article of generatedArticles) {
+    const filterValue = (article.categorie || '').toLowerCase().replace(/\s+/g, '-');
+    const articleUrl = `${SITE_BASE}${ARTICLE_URL_PREFIX}/${article.slug}/`;
+    
+    // Formater la date
+    const dateObj = article.date_publication ? new Date(article.date_publication) : new Date();
+    const dateStr = dateObj.toLocaleDateString('fr-FR', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+
+    articlesCardsHtml += `<a href="${esc(articleUrl)}" class="article-card" data-article-category="${esc(filterValue)}">
+      <div class="article-card-image">
+        <img src="${esc(article.hero_image_url || SITE_BASE + '/img/placeholder.jpg')}" alt="${esc(article.title)}" loading="lazy" decoding="async">
+      </div>
+      <div class="article-card-content">
+        <div class="article-card-category">${esc(article.categorie || 'Non catégorisé')}</div>
+        <h3 class="article-card-title">${esc(article.title)}</h3>
+        <p class="article-card-excerpt">${esc(article.chapo || '')}</p>
+        <div class="article-card-meta">
+          <time datetime="${article.date_publication || dateStr}">${dateStr}</time>
+          <span class="article-card-cta">Lire l'article →</span>
+        </div>
+      </div>
+    </a>\n`;
+  }
+
+  // Remplacer les placeholders dans le template
+  hubHtml = hubHtml
+    .replace('<!-- ARTICLE_HUB_URL -->', esc(`${SITE_ORIGIN}${SITE_BASE}${ARTICLE_URL_PREFIX}/`))
+    .replace('<!-- SITE_BASE -->', SITE_BASE)
+    .replace('<!-- FILTERS_BUTTONS -->', filterButtonsHtml)
+    .replace('<!-- ARTICLES_GRID -->', articlesCardsHtml);
+
+  // Écrire le fichier
+  const outDir = ARTICLES_OUTPUT_DIR;
+  await mkdir(outDir, { recursive: true });
+  const outFile = join(outDir, 'index.html');
+  await writeFile(outFile, hubHtml, 'utf8');
+
+  console.log(`  ✓ Page hub déployée : ${SITE_BASE}${ARTICLE_URL_PREFIX}/ (${generatedArticles.length} articles)`);
+  return { deployed: true, count: generatedArticles.length };
+}
+
 
 
 /* ==========================================================================
@@ -2027,7 +2125,6 @@ async function main() {
   await mkdir(OUTPUT_DIR, { recursive: true });
   await writeFile(OUTPUT_HTML, html, 'utf8');
   await writeFile(resolve(OUTPUT_DIR, 'robots.txt'), renderRobotsTxt(), 'utf8');
-  await writeFile(resolve(OUTPUT_DIR, 'sitemap.xml'), renderSitemapXml(now), 'utf8');
 
   if (CUSTOM_DOMAIN) {
     await writeFile(resolve(OUTPUT_DIR, 'CNAME'), `${CUSTOM_DOMAIN}\n`, 'utf8');
@@ -2038,10 +2135,23 @@ async function main() {
   await copyLegalPages();
 
   // Pipeline articles "Tendances & Conseils Pro"
+  let articlesForSitemap = [];
   const articlesResult = await buildArticles(sortedRecords);
   if (articlesResult.deployed) {
     console.log(`✓ ${articlesResult.count} article(s) "Tendances & Conseils Pro" généré(s).`);
+    
+    // Générer la page hub
+    const hubResult = await buildArticlesIndex(articlesResult.articles);
+    if (hubResult.deployed) {
+      console.log(`✓ Page hub "/tendances-conseils-pro/" générée.`);
+    }
+    
+    // Stocker les articles pour la sitemap
+    articlesForSitemap = articlesResult.articles || [];
   }
+
+  // Générer la sitemap (avec les articles)
+  await writeFile(resolve(OUTPUT_DIR, 'sitemap.xml'), renderSitemapXml(now, articlesForSitemap), 'utf8');
 
   await writeFile(
     resolve(OUTPUT_DIR, 'build-info.json'),
