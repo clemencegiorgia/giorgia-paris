@@ -1952,10 +1952,10 @@ async function buildArticlesIndex(generatedArticles) {
 
   // Remplacer les placeholders dans le template
   hubHtml = hubHtml
-    .replace('<!-- ARTICLE_HUB_URL -->', esc(`${SITE_ORIGIN}${SITE_BASE}${ARTICLE_URL_PREFIX}/`))
-    .replace('<!-- SITE_BASE -->', SITE_BASE)
-    .replace('<!-- FILTERS_BUTTONS -->', filterButtonsHtml)
-    .replace('<!-- ARTICLES_GRID -->', articlesCardsHtml);
+    .replace(/<!-- ARTICLE_HUB_URL -->/g, esc(`${SITE_ORIGIN}${SITE_BASE}${ARTICLE_URL_PREFIX}/`))
+    .replace(/<!-- SITE_BASE -->/g, SITE_BASE)
+    .replace(/<!-- FILTERS_BUTTONS -->/g, filterButtonsHtml)
+    .replace(/<!-- ARTICLES_GRID -->/g, articlesCardsHtml);
 
   // Écrire le fichier
   const outDir = ARTICLES_OUTPUT_DIR;
