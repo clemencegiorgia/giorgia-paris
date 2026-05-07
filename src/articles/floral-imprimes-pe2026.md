@@ -26,7 +26,7 @@ mots_cles_seo:
   - "grossiste prêt à porter Aubervilliers"
 ---
 
-## Pourquoi les pièces florals explosent en 2026
+## Pourquoi les pièces florales explosent en 2026
 
 L'imprimé floral n'est pas nouveau. Ce qui change, c'est l'**amplitude** et la **confiance** avec laquelle les créateurs l'utilisent. Il n'y a plus de timidité. Les pièces florals ne murmotent pas — ils crient, ils revendiquent, ils occupent l'espace.
 
