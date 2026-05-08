@@ -420,6 +420,84 @@ function esc(s) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
+/**
+ * Génère le schema JSON-LD pour un article
+ * Aide Google à comprendre et afficher l'article dans les rich snippets
+ */
+function generateArticleSchema(article, heroImageUrl) {
+  const articleUrl = `${SITE_ORIGIN}${SITE_BASE}${ARTICLE_URL_PREFIX}/${article.slug}/`;
+  const publishDate = article.date_publication ? new Date(article.date_publication).toISOString() : new Date().toISOString();
+  
+  // Extraire une partie du contenu HTML comme articleBody (limiter à 5000 chars pour ne pas surcharger)
+  const articleBody = (article.contentHtml || '')
+    .replace(/<[^>]*>/g, '') // Enlever les tags HTML
+    .trim()
+    .slice(0, 5000) + (article.contentHtml && article.contentHtml.length > 5000 ? '...' : '');
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    'headline': article.title,
+    'description': article.chapo || article.title,
+    'image': heroImageUrl || `${SITE_ORIGIN}${SITE_BASE}/img/og-articles-hub.jpg`,
+    'datePublished': publishDate,
+    'dateModified': publishDate,
+    'author': {
+      '@type': 'Organization',
+      'name': article.auteur || 'GIORGIA paris'
+    },
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'GIORGIA paris',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': `${SITE_ORIGIN}${SITE_BASE}/img/og-articles-hub.jpg`
+      }
+    },
+    'articleBody': articleBody,
+    'url': articleUrl,
+    'mainEntityOfPage': {
+      '@type': 'WebPage',
+      '@id': articleUrl
+    }
+  };
+}
+
+/**
+ * Génère le schema JSON-LD BreadcrumbList pour un article
+ * Aide Google à afficher le fil d'Ariane
+ */
+function generateBreadcrumbSchema(article) {
+  const articleUrl = `${SITE_ORIGIN}${SITE_BASE}${ARTICLE_URL_PREFIX}/${article.slug}/`;
+  const hubUrl = `${SITE_ORIGIN}${SITE_BASE}${ARTICLE_URL_PREFIX}/`;
+  const homeUrl = `${SITE_ORIGIN}${SITE_BASE}/`;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+      {
+        '@type': 'ListItem',
+        'position': 1,
+        'name': 'Accueil',
+        'item': homeUrl
+      },
+      {
+        '@type': 'ListItem',
+        'position': 2,
+        'name': 'Tendances & Conseils Pro',
+        'item': hubUrl
+      },
+      {
+        '@type': 'ListItem',
+        'position': 3,
+        'name': article.title,
+        'item': articleUrl
+      }
+    ]
+  };
+}
+
 /* ==========================================================================
    7 bis. PIPELINE D'IMAGES
    ==========================================================================
@@ -1780,6 +1858,18 @@ async function renderArticlePage(article, productIndex, allRecords) {
     console.log(`     ⚠ Placeholder <!-- SELECTION_GIORGIA_SECTION --> non trouvé dans le markdown`);
   }
 
+  // Générer les schemas JSON-LD
+  const articleSchema = generateArticleSchema({ ...article, contentHtml }, heroImageUrl);
+  const breadcrumbSchema = generateBreadcrumbSchema(article);
+  const jsonLdScripts = `    <script type="application/ld+json">
+${JSON.stringify(articleSchema, null, 2)}
+    </script>
+    <script type="application/ld+json">
+${JSON.stringify(breadcrumbSchema, null, 2)}
+    </script>`;
+
+  console.log(`     ✓ Schemas JSON-LD générés (Article + BreadcrumbList)`);
+
   // Substitutions
   const replacements = [
     ['<!-- META_TITLE -->', esc(article.meta_title)],
@@ -1795,6 +1885,7 @@ async function renderArticlePage(article, productIndex, allRecords) {
     ['<!-- WHATSAPP_CTA_URL -->', waCtaUrl],
     ['<!-- SITE_BASE -->', SITE_BASE],
     ['<!-- SITE_ORIGIN -->', SITE_ORIGIN],
+    ['<!-- ARTICLE_SCHEMAS -->', jsonLdScripts],  // Injection des schemas JSON-LD
   ];
 
   console.log(`     ✓ Substitutions à faire : ${replacements.length}`);
