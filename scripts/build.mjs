@@ -1923,6 +1923,42 @@ ${JSON.stringify(breadcrumbSchema, null, 2)}
 }
 
 /**
+ * Génère un fichier JSON avec les 3 derniers articles
+ * Utilisé par la home page pour afficher le carrousel "À lire aussi"
+ */
+async function generateLatestArticlesJson(generatedArticles) {
+  if (!generatedArticles || generatedArticles.length === 0) {
+    return { deployed: false };
+  }
+
+  // Trier par date DESC et prendre les 3 premiers
+  const latest3 = generatedArticles
+    .sort((a, b) => {
+      const dateA = a.date_publication ? new Date(a.date_publication) : new Date(0);
+      const dateB = b.date_publication ? new Date(b.date_publication) : new Date(0);
+      return dateB - dateA;
+    })
+    .slice(0, 3)
+    .map(article => ({
+      slug: article.slug,
+      title: article.title,
+      chapo: article.chapo,
+      date_publication: article.date_publication,
+      hero_image_url: article.hero_image_url || `${SITE_BASE}/img/placeholder.jpg`,
+    }));
+
+  // Écrire le fichier JSON
+  const apiDir = resolve(OUTPUT_DIR, 'api');
+  await mkdir(apiDir, { recursive: true });
+  const jsonFile = join(apiDir, 'latest-articles.json');
+  
+  await writeFile(jsonFile, JSON.stringify({ articles: latest3 }, null, 2), 'utf8');
+  
+  console.log(`  ✓ JSON généré : /api/latest-articles.json (${latest3.length} articles)`);
+  return { deployed: true, count: latest3.length };
+}
+
+/**
  * Pipeline complète : lit tous les .md, copie le CSS, génère les pages.
  * Appelé depuis main() après le rendu de la home.
  */
@@ -2239,6 +2275,12 @@ async function main() {
     const hubResult = await buildArticlesIndex(articlesResult.articles);
     if (hubResult.deployed) {
       console.log(`✓ Page hub "/tendances-conseils-pro/" générée.`);
+    }
+    
+    // Générer le JSON des 3 derniers articles pour la home
+    const jsonResult = await generateLatestArticlesJson(articlesResult.articles);
+    if (jsonResult.deployed) {
+      console.log(`✓ JSON articles générés pour la home.`);
     }
     
     // Stocker les articles pour la sitemap
