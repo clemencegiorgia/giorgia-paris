@@ -1241,6 +1241,7 @@ function renderSitemapXml(now, articlesData = []) {
   // modifiées.
   const urls = [
     { loc: `${SITE_ORIGIN}${SITE_BASE}/`,                      priority: '1.0', changefreq: 'weekly' },
+    { loc: `${SITE_ORIGIN}${SITE_BASE}/notre-histoire/`,       priority: '0.9', changefreq: 'monthly' },
     { loc: `${SITE_ORIGIN}${SITE_BASE}/mentions-legales/`,     priority: '0.3', changefreq: 'yearly' },
     { loc: `${SITE_ORIGIN}${SITE_BASE}/cgv/`,                  priority: '0.3', changefreq: 'yearly' },
     { loc: `${SITE_ORIGIN}${SITE_BASE}/confidentialite/`,      priority: '0.3', changefreq: 'yearly' },
@@ -1396,6 +1397,33 @@ async function copyStaticPages() {
 
     await writeFile(outPath, html, 'utf8');
     console.log(`  • ${srcRelPath} → ${SITE_BASE}/${outFolder}/`);
+  }
+
+  // Copie des images statiques de src/img/ vers dist/img/
+  // (pour les images non-Airtable : hero banners, illustrations, etc.)
+  const srcImgDir = resolve('src/img');
+  try {
+    await stat(srcImgDir);
+    const distImgDir = resolve(OUTPUT_DIR, 'img');
+    await mkdir(distImgDir, { recursive: true });
+
+    const files = await readdir(srcImgDir);
+    for (const file of files) {
+      const srcFile = join(srcImgDir, file);
+      const dstFile = join(distImgDir, file);
+      const fileStat = await stat(srcFile);
+      
+      // Copie uniquement les fichiers (pas les répertoires)
+      if (fileStat.isFile()) {
+        await copyFile(srcFile, dstFile);
+      }
+    }
+    console.log(`  • Images statiques : ${files.length} fichier(s) copié(s) de src/img/ vers dist/img/`);
+  } catch (err) {
+    // src/img/ peut ne pas exister — ce n'est pas bloquant
+    if (err.code !== 'ENOENT') {
+      console.warn(`  ⚠ Erreur lors de la copie des images statiques :`, err.message);
+    }
   }
 }
 
