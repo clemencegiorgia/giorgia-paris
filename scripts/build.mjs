@@ -1094,7 +1094,9 @@ function renderNavLinks() {
   ).join('');
   // Lien Tendances & Conseils Pro — section éditoriale du site
   const tendancesLink = `<li><a href="${SITE_BASE}/tendances-conseils-pro/">Tendances &amp; Conseils Pro</a></li>`;
-  return universLinks + tendancesLink;
+  // Lien Qui sommes-nous — page institutionnelle
+  const histoireLink = `<li><a href="${SITE_BASE}/notre-histoire/">Qui sommes-nous</a></li>`;
+  return universLinks + tendancesLink + histoireLink;
 }
 
 function renderMobMenuLinks() {
@@ -1102,7 +1104,8 @@ function renderMobMenuLinks() {
     `<a href="#${u.id}" onclick="closeMob()">${esc(u.label)}</a>`
   ).join('');
   const tendancesLink = `<a href="${SITE_BASE}/tendances-conseils-pro/" onclick="closeMob()">Tendances &amp; Conseils Pro</a>`;
-  return links + tendancesLink + `<a href="#contact" onclick="closeMob()" style="color:var(--gold)">Commander</a>`;
+  const histoireLink  = `<a href="${SITE_BASE}/notre-histoire/" onclick="closeMob()">Qui sommes-nous</a>`;
+  return links + tendancesLink + histoireLink + `<a href="#contact" onclick="closeMob()" style="color:var(--gold)">Commander</a>`;
 }
 
 function renderUniversTabs() {
@@ -1305,6 +1308,13 @@ const LEGAL_PAGES_MAP = {
   'politique-retour.html':         'politique-retour',
 };
 
+// Pages statiques institutionnelles hors src/legal/ — même mécanique :
+// lecture + applyBasePathToHtml + écriture dans dist/<dossier>/index.html.
+const STATIC_PAGES_MAP = {
+  // [chemin source relatif à la racine du repo] : [dossier de sortie dans dist/]
+  'src/notre-histoire/index.html': 'notre-histoire',
+};
+
 async function copyLegalPages() {
   const srcDir = resolve('src/legal');
 
@@ -1358,6 +1368,35 @@ async function copyLegalPages() {
   }
 
   return { deployed: true, pages: deployedPages };
+}
+
+/**
+ * Copie les pages statiques institutionnelles (ex. notre-histoire)
+ * depuis leur emplacement source vers dist/<dossier>/index.html,
+ * en appliquant applyBasePathToHtml exactement comme pour les pages légales.
+ */
+async function copyStaticPages() {
+  for (const [srcRelPath, outFolder] of Object.entries(STATIC_PAGES_MAP)) {
+    const srcPath = resolve(srcRelPath);
+    try {
+      await stat(srcPath);
+    } catch {
+      console.warn(`  ⚠ ${srcRelPath} introuvable — page /${outFolder}/ non déployée.`);
+      continue;
+    }
+    const outDir  = resolve(OUTPUT_DIR, outFolder);
+    const outPath = join(outDir, 'index.html');
+    await mkdir(outDir, { recursive: true });
+
+    let html = await readFile(srcPath, 'utf8');
+    // Remplace les placeholders <!-- SITE_BASE --> restants (cohérence avec les autres pages)
+    html = html.split('<!-- SITE_BASE -->').join(SITE_BASE);
+    // Préfixe les chemins absolus internes pour qualif
+    html = applyBasePathToHtml(html);
+
+    await writeFile(outPath, html, 'utf8');
+    console.log(`  • ${srcRelPath} → ${SITE_BASE}/${outFolder}/`);
+  }
 }
 
 /**
@@ -2264,6 +2303,10 @@ async function main() {
   // Copie des pages légales depuis src/legal/ vers dist/ avec URLs propres.
   console.log('→ Copie des pages légales…');
   await copyLegalPages();
+
+  // Copie des pages statiques institutionnelles (notre-histoire, etc.)
+  console.log('→ Copie des pages statiques institutionnelles…');
+  await copyStaticPages();
 
   // Pipeline articles "Tendances & Conseils Pro"
   let articlesForSitemap = [];
