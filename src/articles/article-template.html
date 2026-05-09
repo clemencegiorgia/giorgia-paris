@@ -231,8 +231,6 @@
       </div>
 
       <nav class="foot-legal" aria-label="Informations légales">
-        <a href="<!-- SITE_BASE -->/notre-histoire/">Qui sommes-nous</a>
-        <span class="sep" aria-hidden="true">·</span>
         <a href="<!-- SITE_BASE -->/mentions-legales/">Mentions légales</a>
         <span class="sep" aria-hidden="true">·</span>
         <a href="<!-- SITE_BASE -->/cgv/">CGV</a>
@@ -268,11 +266,13 @@
       const tracks = document.querySelectorAll('[data-carousel] .carousel-track');
       const states = new Map();
 
-      tracks.forEach(track => {
-        const id = track.id.replace('track-', '');
-        states.set(id, { index: 0, count: track.querySelectorAll('.selection-card').length });
-        renderDots(id);
-      });
+      function init() {
+        tracks.forEach(track => {
+          const id = track.id.replace('track-', '');
+          states.set(id, { index: 0, count: track.querySelectorAll('.selection-card').length });
+          renderDots(id);
+        });
+      }
 
       window.carMove = function(id, dir) {
         const state = states.get(id);
@@ -311,6 +311,13 @@
           });
           dotsEl.appendChild(b);
         }
+      }
+
+      /* Initialisation différée — attend que le layout soit calculé (évite offsetWidth=0 sur mobile) */
+      if (document.readyState === 'complete') {
+        requestAnimationFrame(() => requestAnimationFrame(init));
+      } else {
+        window.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(init)));
       }
 
       window.addEventListener('resize', () => {
