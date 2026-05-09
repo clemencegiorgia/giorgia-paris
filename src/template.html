@@ -1457,7 +1457,7 @@
       <p style="font-size: 0.9rem; color: var(--taupe); margin-bottom: 2rem; letter-spacing: 0.04em;">Découvrez nos guides tendances et conseils pour votre assortiment</p>
       
       <div style="position: relative; margin-bottom: 2rem;">
-        <div id="articles-track" style="display: flex; gap: 1.5rem; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; transform: translateX(0); transition: transform 0.5s cubic-bezier(.25,.46,.45,.94); margin-bottom: 1.5rem;">
+        <div id="articles-track" style="display: flex; gap: 1.5rem; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 0.5rem;">
           <!-- Articles injectés par JS depuis /api/latest-articles.json -->
         </div>
         <style>
@@ -1532,10 +1532,10 @@
         </style>
       </div>
 
-      <div style="display: flex; justify-content: center; align-items: center; gap: 2rem; margin-top: 2rem;">
-        <button onclick="articleCarouselMove(-1)" id="articles-prev" style="padding: 0.6rem 1rem; border: 1.5px solid var(--taupe); background: transparent; color: var(--black); font-family: var(--ff-body); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em; cursor: pointer; border-radius: 2px; transition: all 0.3s;">◀ Précédent</button>
-        <div id="articles-dots" style="display: flex; gap: 0.75rem;"></div>
-        <button onclick="articleCarouselMove(1)" id="articles-next" style="padding: 0.6rem 1rem; border: 1.5px solid var(--taupe); background: transparent; color: var(--black); font-family: var(--ff-body); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em; cursor: pointer; border-radius: 2px; transition: all 0.3s;">Suivant ▶</button>
+      <div style="display: flex; justify-content: center; align-items: center; gap: .6rem; margin-top: 1rem; color: var(--taupe); font-size: 0.78rem; letter-spacing: 0.06em;">
+        <span aria-hidden="true" style="font-size: 1.05rem; line-height: 1;">←</span>
+        <span>Faites glisser pour découvrir plus d'articles</span>
+        <span aria-hidden="true" style="font-size: 1.05rem; line-height: 1;">→</span>
       </div>
 
       <a href="./tendances-conseils-pro/" style="display: inline-block; padding: 0.8rem 1.6rem; background: transparent; border: 1.5px solid var(--gold); color: var(--gold); text-decoration: none; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 2px; transition: all 0.3s; margin-top: 1rem;">Voir tous les articles →</a>
@@ -1909,39 +1909,30 @@
       if (sc && sc.classList.contains('open') && !sc.contains(e.target)) sc.classList.remove('open');
     });
 
-    /* ---- ARTICLES CAROUSEL (À LIRE AUSSI) ---- */
+    /* ---- ARTICLES CAROUSEL (À LIRE AUSSI) — swipe natif uniquement ---- */
     (function() {
-      const ITEMS_PER_PAGE = 1;
-      let currentIndex = 0;
-      let articlesData = [];
-
       const articlesTrack = document.getElementById('articles-track');
-      const articlesDots = document.getElementById('articles-dots');
-      const articlesNextBtn = document.getElementById('articles-next');
-      const articlesPrevBtn = document.getElementById('articles-prev');
+      if (!articlesTrack) return;
 
       // Charger le JSON des articles
       fetch('./api/latest-articles.json')
         .then(res => res.json())
         .then(data => {
-          articlesData = data.articles || [];
+          const articlesData = data.articles || [];
           if (articlesData.length === 0) {
             console.log('Pas d\'articles à afficher');
             return;
           }
-          renderCarousel();
+          renderCarousel(articlesData);
         })
         .catch(err => console.log('Erreur chargement articles:', err));
 
-      function renderCarousel() {
-        if (articlesData.length === 0) return;
-
-        // Rendre les cartes
+      function renderCarousel(articlesData) {
         articlesTrack.innerHTML = '';
-        articlesData.forEach((article, idx) => {
+        articlesData.forEach(article => {
           const dateObj = new Date(article.date_publication);
           const dateStr = dateObj.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
-          
+
           const card = document.createElement('a');
           card.href = `./tendances-conseils-pro/${article.slug}/`;
           card.innerHTML = `
@@ -1959,71 +1950,7 @@
           `;
           articlesTrack.appendChild(card);
         });
-
-        // Rendre les dots
-        renderDots();
       }
-
-      function renderDots() {
-        articlesDots.innerHTML = '';
-        articlesData.forEach((_, idx) => {
-          const btn = document.createElement('button');
-          btn.style.cssText = 'width: 10px; height: 10px; padding: 0; border: 1px solid var(--taupe); background: transparent; border-radius: 50%; cursor: pointer; transition: all 0.3s;';
-          if (idx === currentIndex) {
-            btn.style.background = 'var(--gold)';
-            btn.style.borderColor = 'var(--gold)';
-            btn.classList.add('is-active');
-          }
-          btn.setAttribute('aria-label', `Aller à l'article ${idx + 1}`);
-          btn.addEventListener('click', () => {
-            currentIndex = idx;
-            updateCarousel();
-            renderDots();
-          });
-          articlesDots.appendChild(btn);
-        });
-      }
-
-      window.articleCarouselMove = function(dir) {
-        const track = document.getElementById('articles-track');
-        const card = track.querySelector('a');
-        if (!card) return;
-
-        const cardWidth = card.offsetWidth + 24; // gap
-        const visible = Math.max(1, Math.floor(track.parentElement.offsetWidth / cardWidth));
-        const maxIndex = Math.max(0, articlesData.length - visible);
-
-        currentIndex = Math.max(0, Math.min(maxIndex, currentIndex + dir));
-        updateCarousel();
-        renderDots();
-      };
-
-      function updateCarousel() {
-        const track = document.getElementById('articles-track');
-        const card = track.querySelector('a');
-        if (!card) return;
-
-        const cardWidth = card.offsetWidth + 24;
-        const visible = Math.max(1, Math.floor(track.parentElement.offsetWidth / cardWidth));
-        const maxIndex = Math.max(0, articlesData.length - visible);
-
-        // Mise à jour boutons
-        articlesPrevBtn.disabled = currentIndex === 0;
-        articlesNextBtn.disabled = currentIndex === maxIndex;
-        
-        articlesPrevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
-        articlesPrevBtn.style.cursor = currentIndex === 0 ? 'not-allowed' : 'pointer';
-        articlesNextBtn.style.opacity = currentIndex === maxIndex ? '0.5' : '1';
-        articlesNextBtn.style.cursor = currentIndex === maxIndex ? 'not-allowed' : 'pointer';
-
-        // Déplacement
-        track.style.transform = `translateX(${-currentIndex * cardWidth}px)`;
-      }
-
-      window.addEventListener('resize', () => {
-        updateCarousel();
-        renderDots();
-      });
     })();
   </script>
 </body>
