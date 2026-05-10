@@ -961,6 +961,9 @@
       position: relative;
       isolation: isolate;
     }
+    /* Évite le flicker pendant le shuffle aléatoire des Préventes au chargement.
+       JS retire la classe .pv-shuffling juste après avoir réorganisé les cartes. */
+    #track-preventes.pv-shuffling { visibility: hidden; }
     /* Léger dégradé décoratif en haut/bas pour adoucir la rupture */
     .prevente-sec::before,
     .prevente-sec::after {
@@ -1632,6 +1635,26 @@
       const track = document.getElementById('track-' + id);
       const dotsEl = document.getElementById('dots-' + id);
       if (!track) return;
+
+      // Pour la section Préventes uniquement : mélanger l'ordre des cartes
+      // à chaque visite pour un effet dynamique. Aucun impact SEO (Google
+      // a déjà indexé le HTML, l'ordre des cartes n'influence pas le ranking).
+      if (id === 'preventes') {
+        const grid = track.querySelector('.catalog-grid-root') || track;
+        const cards = Array.from(grid.children);
+        // Algorithme Fisher-Yates pour un shuffle uniforme
+        for (let i = cards.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [cards[i], cards[j]] = [cards[j], cards[i]];
+        }
+        // Réinjecter les cartes dans le nouvel ordre. DocumentFragment évite
+        // les reflows multiples et rend l'opération imperceptible (~1ms).
+        const fragment = document.createDocumentFragment();
+        cards.forEach(card => fragment.appendChild(card));
+        grid.appendChild(fragment);
+        // Retire la classe pv-shuffling → carrousel visible avec ordre aléatoire
+        track.classList.remove('pv-shuffling');
+      }
 
       const total = track.querySelectorAll('.prod-card').length;
       carState[id] = { pos: 0, total };
