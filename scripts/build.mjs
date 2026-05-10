@@ -1094,9 +1094,7 @@ function renderNavLinks() {
   ).join('');
   // Lien Tendances & Conseils Pro — section éditoriale du site
   const tendancesLink = `<li><a href="${SITE_BASE}/tendances-conseils-pro/">Tendances &amp; Conseils Pro</a></li>`;
-  // Lien Qui sommes-nous — page institutionnelle
-  const histoireLink = `<li><a href="${SITE_BASE}/notre-histoire/">Qui sommes-nous</a></li>`;
-  return universLinks + tendancesLink + histoireLink;
+  return universLinks + tendancesLink;
 }
 
 function renderMobMenuLinks() {
@@ -1104,8 +1102,7 @@ function renderMobMenuLinks() {
     `<a href="#${u.id}" onclick="closeMob()">${esc(u.label)}</a>`
   ).join('');
   const tendancesLink = `<a href="${SITE_BASE}/tendances-conseils-pro/" onclick="closeMob()">Tendances &amp; Conseils Pro</a>`;
-  const histoireLink  = `<a href="${SITE_BASE}/notre-histoire/" onclick="closeMob()">Qui sommes-nous</a>`;
-  return links + tendancesLink + histoireLink + `<a href="#contact" onclick="closeMob()" style="color:var(--gold)">Commander</a>`;
+  return links + tendancesLink + `<a href="#contact" onclick="closeMob()" style="color:var(--gold)">Commander</a>`;
 }
 
 function renderUniversTabs() {
@@ -1241,7 +1238,6 @@ function renderSitemapXml(now, articlesData = []) {
   // modifiées.
   const urls = [
     { loc: `${SITE_ORIGIN}${SITE_BASE}/`,                      priority: '1.0', changefreq: 'weekly' },
-    { loc: `${SITE_ORIGIN}${SITE_BASE}/notre-histoire/`,       priority: '0.9', changefreq: 'monthly' },
     { loc: `${SITE_ORIGIN}${SITE_BASE}/mentions-legales/`,     priority: '0.3', changefreq: 'yearly' },
     { loc: `${SITE_ORIGIN}${SITE_BASE}/cgv/`,                  priority: '0.3', changefreq: 'yearly' },
     { loc: `${SITE_ORIGIN}${SITE_BASE}/confidentialite/`,      priority: '0.3', changefreq: 'yearly' },
@@ -1309,13 +1305,6 @@ const LEGAL_PAGES_MAP = {
   'politique-retour.html':         'politique-retour',
 };
 
-// Pages statiques institutionnelles hors src/legal/ — même mécanique :
-// lecture + applyBasePathToHtml + écriture dans dist/<dossier>/index.html.
-const STATIC_PAGES_MAP = {
-  // [chemin source relatif à la racine du repo] : [dossier de sortie dans dist/]
-  'src/notre-histoire/index.html': 'notre-histoire',
-};
-
 async function copyLegalPages() {
   const srcDir = resolve('src/legal');
 
@@ -1369,62 +1358,6 @@ async function copyLegalPages() {
   }
 
   return { deployed: true, pages: deployedPages };
-}
-
-/**
- * Copie les pages statiques institutionnelles (ex. notre-histoire)
- * depuis leur emplacement source vers dist/<dossier>/index.html,
- * en appliquant applyBasePathToHtml exactement comme pour les pages légales.
- */
-async function copyStaticPages() {
-  for (const [srcRelPath, outFolder] of Object.entries(STATIC_PAGES_MAP)) {
-    const srcPath = resolve(srcRelPath);
-    try {
-      await stat(srcPath);
-    } catch {
-      console.warn(`  ⚠ ${srcRelPath} introuvable — page /${outFolder}/ non déployée.`);
-      continue;
-    }
-    const outDir  = resolve(OUTPUT_DIR, outFolder);
-    const outPath = join(outDir, 'index.html');
-    await mkdir(outDir, { recursive: true });
-
-    let html = await readFile(srcPath, 'utf8');
-    // Remplace les placeholders <!-- SITE_BASE --> restants (cohérence avec les autres pages)
-    html = html.split('<!-- SITE_BASE -->').join(SITE_BASE);
-    // Préfixe les chemins absolus internes pour qualif
-    html = applyBasePathToHtml(html);
-
-    await writeFile(outPath, html, 'utf8');
-    console.log(`  • ${srcRelPath} → ${SITE_BASE}/${outFolder}/`);
-  }
-
-  // Copie des images statiques de src/img/ vers dist/img/
-  // (pour les images non-Airtable : hero banners, illustrations, etc.)
-  const srcImgDir = resolve('src/img');
-  try {
-    await stat(srcImgDir);
-    const distImgDir = resolve(OUTPUT_DIR, 'img');
-    await mkdir(distImgDir, { recursive: true });
-
-    const files = await readdir(srcImgDir);
-    for (const file of files) {
-      const srcFile = join(srcImgDir, file);
-      const dstFile = join(distImgDir, file);
-      const fileStat = await stat(srcFile);
-      
-      // Copie uniquement les fichiers (pas les répertoires)
-      if (fileStat.isFile()) {
-        await copyFile(srcFile, dstFile);
-      }
-    }
-    console.log(`  • Images statiques : ${files.length} fichier(s) copié(s) de src/img/ vers dist/img/`);
-  } catch (err) {
-    // src/img/ peut ne pas exister — ce n'est pas bloquant
-    if (err.code !== 'ENOENT') {
-      console.warn(`  ⚠ Erreur lors de la copie des images statiques :`, err.message);
-    }
-  }
 }
 
 /**
@@ -2118,9 +2051,16 @@ async function buildArticlesIndex(generatedArticles) {
     filterButtonsHtml += `<button class="hub-filter-btn" data-filter="${esc(filterValue)}">${esc(cat)}</button>\n          `;
   }
 
+  // Trier les articles par date de publication décroissante (plus récent en premier)
+  const sortedArticles = generatedArticles.slice().sort((a, b) => {
+    const dateA = a.date_publication ? new Date(a.date_publication) : new Date(0);
+    const dateB = b.date_publication ? new Date(b.date_publication) : new Date(0);
+    return dateB - dateA;
+  });
+
   // Générer les cartes articles (avec data-article-category pour le filtre côté client)
   let articlesCardsHtml = '';
-  for (const article of generatedArticles) {
+  for (const article of sortedArticles) {
     const filterValue = (article.categorie || '').toLowerCase().replace(/\s+/g, '-');
     const articleUrl = `${SITE_BASE}${ARTICLE_URL_PREFIX}/${article.slug}/`;
     
@@ -2331,10 +2271,6 @@ async function main() {
   // Copie des pages légales depuis src/legal/ vers dist/ avec URLs propres.
   console.log('→ Copie des pages légales…');
   await copyLegalPages();
-
-  // Copie des pages statiques institutionnelles (notre-histoire, etc.)
-  console.log('→ Copie des pages statiques institutionnelles…');
-  await copyStaticPages();
 
   // Pipeline articles "Tendances & Conseils Pro"
   let articlesForSitemap = [];
