@@ -56,6 +56,7 @@
     <button class="mob-close" onclick="closeMob()" aria-label="Fermer le menu">✕</button>
     <a href="<!-- SITE_BASE -->/">Catalogue</a>
     <a href="<!-- SITE_BASE -->/tendances-conseils-pro/">Tendances &amp; Conseils Pro</a>
+    <a href="<!-- SITE_BASE -->/notre-histoire/">Qui sommes-nous</a>
     <a href="<!-- SITE_BASE -->/#contact">Contact</a>
     <a href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer sponsored" style="color:var(--gold)">Commander</a>
   </div>
@@ -69,6 +70,7 @@
     <ul class="nav-links">
       <li><a href="<!-- SITE_BASE -->/">Catalogue</a></li>
       <li><a href="<!-- SITE_BASE -->/tendances-conseils-pro/" aria-current="page">Tendances &amp; Conseils Pro</a></li>
+      <li><a href="<!-- SITE_BASE -->/notre-histoire/">Qui sommes-nous</a></li>
       <li><a href="<!-- SITE_BASE -->/#contact">Contact</a></li>
     </ul>
     <div class="nav-right">
@@ -231,6 +233,8 @@
       </div>
 
       <nav class="foot-legal" aria-label="Informations légales">
+        <a href="<!-- SITE_BASE -->/notre-histoire/">Qui sommes-nous</a>
+        <span class="sep" aria-hidden="true">·</span>
         <a href="<!-- SITE_BASE -->/mentions-legales/">Mentions légales</a>
         <span class="sep" aria-hidden="true">·</span>
         <a href="<!-- SITE_BASE -->/cgv/">CGV</a>
@@ -266,13 +270,11 @@
       const tracks = document.querySelectorAll('[data-carousel] .carousel-track');
       const states = new Map();
 
-      function init() {
-        tracks.forEach(track => {
-          const id = track.id.replace('track-', '');
-          states.set(id, { index: 0, count: track.querySelectorAll('.selection-card').length });
-          renderDots(id);
-        });
-      }
+      tracks.forEach(track => {
+        const id = track.id.replace('track-', '');
+        states.set(id, { index: 0, count: track.querySelectorAll('.selection-card').length });
+        renderDots(id);
+      });
 
       window.carMove = function(id, dir) {
         const state = states.get(id);
@@ -311,13 +313,6 @@
           });
           dotsEl.appendChild(b);
         }
-      }
-
-      /* Initialisation différée — attend que le layout soit calculé (évite offsetWidth=0 sur mobile) */
-      if (document.readyState === 'complete') {
-        requestAnimationFrame(() => requestAnimationFrame(init));
-      } else {
-        window.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(init)));
       }
 
       window.addEventListener('resize', () => {
