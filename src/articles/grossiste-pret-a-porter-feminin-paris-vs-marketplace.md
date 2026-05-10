@@ -120,9 +120,7 @@ Pour la saison Printemps-Été 2026, notre catalogue est organisé en **cinq uni
 
 Chaque univers est renouvelé chaque saison avec de **nouveaux arrivages réguliers**. Les pièces sont disponibles en packs de 6 (tailles S/M ou M/L), avec un minimum de commande à **100 € HT** — pensé pour permettre à une boutique de tester sans engagement excessif.
 
-<!-- SELECTION_GIORGIA_SECTION -->
-
----
+<div><!-- SELECTION_GIORGIA_SECTION --></div>
 
 ## Marketplace ou grossiste : le bon critère pour trancher
 
