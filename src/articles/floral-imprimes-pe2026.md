@@ -5,7 +5,7 @@ meta_title: "Tendance floral et imprimés printemps été 2026 — Sélection gr
 meta_description: "Les imprimés floraux dominent l'été 2026. Décryptage de la tendance et sélection de 6 pièces incontournables pour votre boutique multimarque."
 chapo: "Les imprimés floraux ne sont pas une tendance discrète, c'est un mouvement. Pour la saison printemps été 2026, ces pièces s'imposent comme le langage visuel incontournable. Du body fluide au corset structuré, en passant par la robe bustier voluptueuse, chaque vêtement raconte une histoire. La question n'est plus « en prenez-vous ? » mais « comment en prenez-vous assez ? »"
 categorie: "Tendances saison"
-date_publication: "2026-05-05"
+date_publication: "2026-05-07"
 auteur: "GIORGIA paris"
 hero_image: "floral-imprimes-pe2026-hero.jpg"
 hero_image_alt: "Tendance florals & imprimés printemps été 2026 — collection GIORGIA paris"
