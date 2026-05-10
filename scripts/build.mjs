@@ -943,7 +943,7 @@ function renderPreventeSection(records) {
   h += `<button class="car-btn car-btn-prev" aria-label="Produit précédent" onclick="carMove('preventes',-1)">&#8592;</button>`;
   h += `<button class="car-btn car-btn-next" aria-label="Produit suivant" onclick="carMove('preventes',1)">&#8594;</button>`;
   h += `<div class="carousel-clip">`;
-  h += `<div class="carousel-track" id="track-preventes">`;
+  h += `<div class="carousel-track pv-shuffling" id="track-preventes">`;
   h += `<div id="grid-preventes" class="catalog-grid-root">`;
 
   // Les 4 premières en priorité de chargement (au-dessus de la ligne de flottaison)
