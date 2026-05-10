@@ -1094,7 +1094,9 @@ function renderNavLinks() {
   ).join('');
   // Lien Tendances & Conseils Pro — section éditoriale du site
   const tendancesLink = `<li><a href="${SITE_BASE}/tendances-conseils-pro/">Tendances &amp; Conseils Pro</a></li>`;
-  return universLinks + tendancesLink;
+  // Lien Qui sommes-nous — page institutionnelle
+  const histoireLink = `<li><a href="${SITE_BASE}/notre-histoire/">Qui sommes-nous</a></li>`;
+  return universLinks + tendancesLink + histoireLink;
 }
 
 function renderMobMenuLinks() {
@@ -1102,7 +1104,8 @@ function renderMobMenuLinks() {
     `<a href="#${u.id}" onclick="closeMob()">${esc(u.label)}</a>`
   ).join('');
   const tendancesLink = `<a href="${SITE_BASE}/tendances-conseils-pro/" onclick="closeMob()">Tendances &amp; Conseils Pro</a>`;
-  return links + tendancesLink + `<a href="#contact" onclick="closeMob()" style="color:var(--gold)">Commander</a>`;
+  const histoireLink  = `<a href="${SITE_BASE}/notre-histoire/" onclick="closeMob()">Qui sommes-nous</a>`;
+  return links + tendancesLink + histoireLink + `<a href="#contact" onclick="closeMob()" style="color:var(--gold)">Commander</a>`;
 }
 
 function renderUniversTabs() {
@@ -1238,6 +1241,7 @@ function renderSitemapXml(now, articlesData = []) {
   // modifiées.
   const urls = [
     { loc: `${SITE_ORIGIN}${SITE_BASE}/`,                      priority: '1.0', changefreq: 'weekly' },
+    { loc: `${SITE_ORIGIN}${SITE_BASE}/notre-histoire/`,       priority: '0.9', changefreq: 'monthly' },
     { loc: `${SITE_ORIGIN}${SITE_BASE}/mentions-legales/`,     priority: '0.3', changefreq: 'yearly' },
     { loc: `${SITE_ORIGIN}${SITE_BASE}/cgv/`,                  priority: '0.3', changefreq: 'yearly' },
     { loc: `${SITE_ORIGIN}${SITE_BASE}/confidentialite/`,      priority: '0.3', changefreq: 'yearly' },
@@ -1305,6 +1309,13 @@ const LEGAL_PAGES_MAP = {
   'politique-retour.html':         'politique-retour',
 };
 
+// Pages statiques institutionnelles hors src/legal/ — même mécanique :
+// lecture + applyBasePathToHtml + écriture dans dist/<dossier>/index.html.
+const STATIC_PAGES_MAP = {
+  // [chemin source relatif à la racine du repo] : [dossier de sortie dans dist/]
+  'src/notre-histoire/index.html': 'notre-histoire',
+};
+
 async function copyLegalPages() {
   const srcDir = resolve('src/legal');
 
@@ -1358,6 +1369,62 @@ async function copyLegalPages() {
   }
 
   return { deployed: true, pages: deployedPages };
+}
+
+/**
+ * Copie les pages statiques institutionnelles (ex. notre-histoire)
+ * depuis leur emplacement source vers dist/<dossier>/index.html,
+ * en appliquant applyBasePathToHtml exactement comme pour les pages légales.
+ * Copie également tous les fichiers de src/img/ vers dist/img/.
+ */
+async function copyStaticPages() {
+  for (const [srcRelPath, outFolder] of Object.entries(STATIC_PAGES_MAP)) {
+    const srcPath = resolve(srcRelPath);
+    try {
+      await stat(srcPath);
+    } catch {
+      console.warn(`  ⚠ ${srcRelPath} introuvable — page /${outFolder}/ non déployée.`);
+      continue;
+    }
+    const outDir  = resolve(OUTPUT_DIR, outFolder);
+    const outPath = join(outDir, 'index.html');
+    await mkdir(outDir, { recursive: true });
+
+    let html = await readFile(srcPath, 'utf8');
+    // Remplace les placeholders <!-- SITE_BASE --> restants
+    html = html.split('<!-- SITE_BASE -->').join(SITE_BASE);
+    // Préfixe les chemins absolus internes pour qualif
+    html = applyBasePathToHtml(html);
+
+    await writeFile(outPath, html, 'utf8');
+    console.log(`  • ${srcRelPath} → ${SITE_BASE}/${outFolder}/`);
+  }
+
+  // Copie des images statiques de src/img/ vers dist/img/
+  // (pour les images non-Airtable : hero banners, illustrations, etc.)
+  const srcImgDir = resolve('src/img');
+  try {
+    await stat(srcImgDir);
+    const distImgDir = resolve(OUTPUT_DIR, 'img');
+    await mkdir(distImgDir, { recursive: true });
+
+    const files = await readdir(srcImgDir);
+    let copiedCount = 0;
+    for (const file of files) {
+      const srcFile = join(srcImgDir, file);
+      const dstFile = join(distImgDir, file);
+      const fileStat = await stat(srcFile);
+      if (fileStat.isFile()) {
+        await copyFile(srcFile, dstFile);
+        copiedCount++;
+      }
+    }
+    console.log(`  • Images statiques : ${copiedCount} fichier(s) copié(s) de src/img/ vers dist/img/`);
+  } catch (err) {
+    if (err.code !== 'ENOENT') {
+      console.warn(`  ⚠ Erreur lors de la copie des images statiques :`, err.message);
+    }
+  }
 }
 
 /**
@@ -1851,11 +1918,17 @@ async function renderArticlePage(article, productIndex, allRecords) {
   //  carrousel s'injectent directement (pas de double-échappement).
   // =========================================================================
   let contentHtml = article.contentHtml;
-  if (contentHtml.includes('<!-- SELECTION_GIORGIA_SECTION -->')) {
-    contentHtml = contentHtml.replace('<!-- SELECTION_GIORGIA_SECTION -->', selectionHtml);
+  // Détection robuste du placeholder : marked peut l'envelopper dans une <div>,
+  // un <p>, ou laisser le commentaire HTML brut. On cherche toutes ces variantes.
+  // La regex matche le commentaire SELECTION_GIORGIA_SECTION éventuellement entouré
+  // de balises ouvrantes/fermantes <div>, <p> et de whitespace.
+  const placeholderRegex = /(?:<(?:div|p)>\s*)?<!--\s*SELECTION_GIORGIA_SECTION\s*-->(?:\s*<\/(?:div|p)>)?/i;
+  if (placeholderRegex.test(contentHtml)) {
+    contentHtml = contentHtml.replace(placeholderRegex, selectionHtml);
     console.log(`     ✓ Carrousel injecté dans le contenu HTML`);
   } else if (selectionHtml.length > 0) {
-    console.log(`     ⚠ Placeholder <!-- SELECTION_GIORGIA_SECTION --> non trouvé dans le markdown`);
+    console.log(`     ⚠ Placeholder SELECTION_GIORGIA_SECTION non trouvé dans le markdown rendu`);
+    console.log(`        Snippet du HTML rendu : ${contentHtml.slice(Math.max(0, contentHtml.length / 2 - 100), contentHtml.length / 2 + 100)}`);
   }
 
   // Générer les schemas JSON-LD
@@ -2271,6 +2344,10 @@ async function main() {
   // Copie des pages légales depuis src/legal/ vers dist/ avec URLs propres.
   console.log('→ Copie des pages légales…');
   await copyLegalPages();
+
+  // Copie des pages statiques institutionnelles (notre-histoire, etc.)
+  console.log('→ Copie des pages statiques institutionnelles…');
+  await copyStaticPages();
 
   // Pipeline articles "Tendances & Conseils Pro"
   let articlesForSitemap = [];
