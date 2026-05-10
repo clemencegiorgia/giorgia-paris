@@ -316,6 +316,7 @@
     <button class="mob-close" onclick="closeMob()" aria-label="Fermer le menu">✕</button>
     <a href="<!-- SITE_BASE -->/">Catalogue</a>
     <a href="<!-- SITE_BASE -->/tendances-conseils-pro/" aria-current="page">Tendances &amp; Conseils Pro</a>
+    <a href="<!-- SITE_BASE -->/notre-histoire/">Qui sommes-nous</a>
     <a href="<!-- SITE_BASE -->/#contact">Contact</a>
     <a href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer sponsored" style="color:var(--gold)">Commander</a>
   </div>
@@ -329,6 +330,7 @@
     <ul class="nav-links">
       <li><a href="<!-- SITE_BASE -->/">Catalogue</a></li>
       <li><a href="<!-- SITE_BASE -->/tendances-conseils-pro/" aria-current="page">Tendances &amp; Conseils Pro</a></li>
+      <li><a href="<!-- SITE_BASE -->/notre-histoire/">Qui sommes-nous</a></li>
       <li><a href="<!-- SITE_BASE -->/#contact">Contact</a></li>
     </ul>
     <div class="nav-right">
@@ -483,35 +485,73 @@
     </div>
   </div>
 
-  <!-- ========== FOOTER ========== -->
-  <footer class="article-footer">
-    <div class="article-footer-inner">
-      <div class="foot-top">
-        <div class="logo">
-          <span class="logo-g">GIORGIA</span>
-          <span class="logo-p">paris</span>
-        </div>
+  <!-- ========== FOOTER (cohérent avec la homepage) ========== -->
+  <footer class="hub-footer">
+    <div class="foot-top">
+      <div class="logo">
+        <span class="logo-g">GIORGIA</span>
+        <span class="logo-p">paris</span>
+      </div>
+      <div class="foot-right">
         <div class="foot-addr">
           <p>Siège social&nbsp;: 4 rue de Marivaux, 75002 Paris · Showroom&nbsp;: 70 rue de la Haie Coq, 93300 Aubervilliers</p>
           <p>+33 6 86 72 93 11 · <a href="mailto:giorgia93300@gmail.com">giorgia93300@gmail.com</a></p>
         </div>
       </div>
+    </div>
 
-      <nav class="foot-legal" aria-label="Informations légales">
-        <a href="<!-- SITE_BASE -->/notre-histoire/">Qui sommes-nous</a>
-        <span class="sep" aria-hidden="true">·</span>
-        <a href="<!-- SITE_BASE -->/mentions-legales/">Mentions légales</a>
-        <span class="sep" aria-hidden="true">·</span>
-        <a href="<!-- SITE_BASE -->/cgv/">CGV</a>
-        <span class="sep" aria-hidden="true">·</span>
-        <a href="<!-- SITE_BASE -->/confidentialite/">Politique de confidentialité</a>
-        <span class="sep" aria-hidden="true">·</span>
-        <a href="<!-- SITE_BASE -->/politique-retour/">Politique de retour</a>
-      </nav>
+    <nav class="foot-legal" aria-label="Informations légales">
+      <a href="<!-- SITE_BASE -->/notre-histoire/">Qui sommes-nous</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="<!-- SITE_BASE -->/mentions-legales/">Mentions légales</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="<!-- SITE_BASE -->/cgv/">CGV</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="<!-- SITE_BASE -->/confidentialite/">Politique de confidentialité</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="<!-- SITE_BASE -->/politique-retour/">Politique de retour</a>
+    </nav>
 
+    <div class="foot-bottom">
       <p class="foot-copy">© 2026 GIORGIA (SARL) · Grossiste Prêt-à-Porter Féminin · RCS Paris 499 006 559</p>
     </div>
   </footer>
+  <style>
+    /* Footer aligné sur la homepage (graphisme cohérent) */
+    .hub-footer { background: #0D0D0D; border-top: 1px solid rgba(255,255,255,.06); }
+    .hub-footer .foot-top {
+      padding: 2.8rem 3.5rem 2rem;
+      display: grid; grid-template-columns: auto 1fr;
+      gap: 2rem; align-items: center;
+    }
+    .hub-footer .logo-g { color: #fff; font-size: .9rem; font-family: var(--ff-logo, 'Cormorant Garamond', serif); font-weight: 700; letter-spacing: .15em; }
+    .hub-footer .logo-p { color: var(--taupe, #8a7d6f); font-style: italic; }
+    .hub-footer .foot-right { text-align: right; }
+    .hub-footer .foot-addr { font-size: .63rem; color: rgba(255,255,255,.85); line-height: 1.8; }
+    .hub-footer .foot-addr a { color: rgba(255,255,255,.85); text-decoration: none; }
+    .hub-footer .foot-addr a:hover { color: #fff; }
+    .hub-footer .foot-legal {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: .4rem 1.5rem; padding: .9rem 1rem .3rem;
+      font-size: .62rem; letter-spacing: .08em; text-transform: uppercase;
+    }
+    .hub-footer .foot-legal a { color: rgba(255,255,255,.65); text-decoration: none; transition: color .25s; }
+    .hub-footer .foot-legal a:hover { color: var(--gold, #C5A36A); }
+    .hub-footer .foot-legal .sep { color: rgba(255,255,255,.2); }
+    .hub-footer .foot-bottom {
+      padding: 1rem 3.5rem 1.5rem;
+      border-top: 1px solid rgba(255,255,255,.05);
+      text-align: center;
+    }
+    .hub-footer .foot-copy { font-size: .62rem; color: rgba(255,255,255,.85); letter-spacing: .05em; }
+    @media(max-width:900px) {
+      .hub-footer .foot-top { grid-template-columns: 1fr; text-align: center; gap: 1.5rem; padding: 2.5rem 1.5rem 1.5rem; }
+      .hub-footer .foot-right { text-align: center; }
+      .hub-footer .foot-bottom { padding: 1rem 1.5rem; }
+      .hub-footer .foot-legal { gap: .3rem 1rem; }
+      .hub-footer .foot-legal .sep { display: none; }
+    }
+  </style>
 
   <!-- ========== JS ========== -->
   <script>
