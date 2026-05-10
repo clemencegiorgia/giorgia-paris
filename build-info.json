@@ -1,20 +1,41 @@
 {
-  "generatedAt": "2026-05-10T14:52:01.608Z",
-  "count": 73,
+  "generatedAt": "2026-05-10T15:59:50.376Z",
+  "count": 75,
   "version": 3,
   "imagePipeline": {
-    "downloaded": 156,
+    "downloaded": 162,
     "cached": 3,
     "failed": 0,
-    "compressionSavedKB": 14864
+    "compressionSavedKB": 17096
   },
   "imageAudit": {
-    "totalImages": 156,
-    "measured": 156,
-    "totalKB": 22666,
-    "avgKB": 145,
-    "heavyCount": 26,
+    "totalImages": 162,
+    "measured": 162,
+    "totalKB": 25383,
+    "avgKB": 157,
+    "heavyCount": 29,
     "top20Heavy": [
+      {
+        "ref": "26393",
+        "nom": "Robe Longue Pois Foulard Signature",
+        "field": "Photos 3",
+        "sizeKB": 887,
+        "url": "https://v5.airtableusercontent.com/v3/u/53/53/1778436000000/n6yiPWrodVVBFm5-JPtaSw/7hmdNfbT3QQmGbcADEBWWiokGqM5cdy3acAMd-l_ywqB8n-38zB0GQyzNSdXZfftr3BecofFmPt7HOmY2trNF6Yf0wf6FGp4KLly_np-xj7b9Bb6-LNjLEpJv3_aExW807rt3HaHBXRuWBpw_u4FGA/mWWpcoEgPNcS9rDcWlPFthiAVuHaAgqPdNjmrdbLI8o"
+      },
+      {
+        "ref": "26393",
+        "nom": "Robe Longue Pois Foulard Signature",
+        "field": "Photos",
+        "sizeKB": 793,
+        "url": "https://v5.airtableusercontent.com/v3/u/53/53/1778436000000/QhQhzjB1HD8PjErZe51XNw/PNOO8gGymTLXWvVF3404kUgdEv0gA8mt5KzgfRCDmtQOrL2QlSfJ-a4QnQH84iT_MLraEPjYozBffwm4Yf8L3SrJO3fEzsRVDD7hg_KMPITWP5ZiFuUFsIJ7dGXANPAE39-NJsBQ4hD-jg2ShD647w/h8Y6m0W1sUQ_eqvlIpVutGNQr0fP7QgUY1UNE5BJ-cc"
+      },
+      {
+        "ref": "26393",
+        "nom": "Robe Longue Pois Foulard Signature",
+        "field": "Photos 2",
+        "sizeKB": 772,
+        "url": "https://v5.airtableusercontent.com/v3/u/53/53/1778436000000/jnsxT0iJPKUOqO_Btrz5ew/gyr40Z71YI2PO5pX-pm12nsN8MhoHcME1dNnEq5DvemODYADpCfWcdZQWlkebM71oQ9XMn5a2aFDHK6VjrE7pJNW8ZMvot974vh299eAKFYkfP0kTnaC9JamXX_NL-pkkPkgjt16Tv0_vxFK8PiDYg/A_0dk3lw-djdbPr1kUV58cy6L4mUdtxuZnohVj_qKls"
+      },
       {
         "ref": "26371",
         "nom": "Robe bustier florale à volants",
@@ -133,27 +154,6 @@
         "field": "Photos 3",
         "sizeKB": 515,
         "url": "https://v5.airtableusercontent.com/v3/u/53/53/1778436000000/6V-cz5K-tTXyvkSgja8ymw/j5mRSTg9qCemt2HeNebMJE3sGQjoZK-H_B_92G49xWmfYzEiaLUaH4bc8T_9Sh3Kul2GhuR7Gd8J5rdT7640C7VayZmfOvrr3oAFrwk4LWspKgMVb9dytTs9a724fvXADjXWy5Jgv7ABPiRnwbMweQ/bzocDfWQoi7ltF6rOowq_nVIWngRhYvhOkEJNfp_ifw"
-      },
-      {
-        "ref": "recXeJ0fLtBlLRJjo",
-        "nom": "Top Halter à Nœud Satiné",
-        "field": "Photos",
-        "sizeKB": 512,
-        "url": "https://v5.airtableusercontent.com/v3/u/53/53/1778436000000/pqpmd72Jqkd6ZwgL1T0mGQ/Dk9PFBkDvKw4SuhHIA4LpRIAX6AngIeHupxQ5US9gAlyXD2Gm2uMES03B3954jF7U5vvnYwqaw_tIA2TWBjezRjzRknRY-DAa1afYWFWQyZn89GqrnDKXGGb_N9Gxza54Knpk1pAEDCOb1OSGKFiww/pdEhjQ4KMmpcOoZq-n2ckXxg35PxUCvwORAvKqq4Zpc"
-      },
-      {
-        "ref": "recggAAJh6hM90KX0",
-        "nom": "Débardeur jaune à pois et dentelle",
-        "field": "Photos",
-        "sizeKB": 511,
-        "url": "https://v5.airtableusercontent.com/v3/u/53/53/1778436000000/EkdsoOyAlhfwMwu47YliFQ/yrgvNoPhUdKp3WDtZSvSIBzU84-K1Y-2XcMe6koe6lwJ8WvGfE-JAh78BoKrWH_JVf4vizuiy1vePrOgbZd9I3BxJHyT930ri6JxZPgpVxALdUlC8gLYlk_XZrlcpnqwVUqttvQIBEH7rkdlrFohVw/Ol_1NDcE3tdbxkSNmusfm0lj5v0PuNHhUE4g8lpf3Fc"
-      },
-      {
-        "ref": "rect7S63lKjswRKM4",
-        "nom": "Top corset élégant en satin avec lacets",
-        "field": "Photos",
-        "sizeKB": 496,
-        "url": "https://v5.airtableusercontent.com/v3/u/53/53/1778436000000/OUu2NC-VGI_xqARL2EKP6w/moL-h9QK2hRSapIrk1k72yx0nnhzzKtlRa2qwY_YAg7oe3z1o-Z9HgR63OVQW7rgCARojSoUiPlqTBKh8zem9t1Baaxu6nJj06GJZTxVwGEgZ2ymKDB68os-flOEYQhCX4gUod0v-DxFjz19BF9wCw/p8cMF3Rn7MrHwtgBMwoJIYXG_wrVHWdpGSEm9TPYOo8"
       }
     ]
   }
