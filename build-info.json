@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-05-27T08:00:27.857Z",
-  "count": 94,
+  "generatedAt": "2026-05-27T09:53:34.709Z",
+  "count": 95,
   "version": 3,
   "imagePipeline": {
-    "downloaded": 212,
+    "downloaded": 214,
     "cached": 3,
     "failed": 0,
-    "compressionSavedKB": 28548
+    "compressionSavedKB": 28571
   },
   "imageAudit": {
-    "totalImages": 212,
-    "measured": 212,
-    "totalKB": 39052,
-    "avgKB": 184,
+    "totalImages": 214,
+    "measured": 214,
+    "totalKB": 39153,
+    "avgKB": 183,
     "heavyCount": 53,
     "top20Heavy": [
       {
