@@ -9,7 +9,7 @@
        Gardé court (≤ 60 car.) et orienté requête commerciale.
        La description est l'extrait sous le titre dans Google (≤ 160 car.). -->
   <title>Grossiste Prêt-à-Porter Féminin Paris — GIORGIA paris</title>
-  <meta name="description" content="Grossiste prêt-à-porter féminin à Paris depuis 2007. Collection Printemps-Été 2026 pour boutiques indépendantes. Minimum 100€ HT, livraison rapide depuis Aubervilliers.">
+  <meta name="description" content="Grossiste prêt-à-porter féminin à Paris depuis 2007. Catalogue très large renouvelé en continu, prix de gros très attractifs pour boutiques indépendantes. Minimum 100€ HT, livraison rapide dans le monde entier.">
 
   <!-- ========== SEO — CANONICAL & LANGUE ==========
        Canonical : indique à Google l'URL "officielle" et évite le duplicate content.
@@ -29,7 +29,7 @@
   <meta property="og:site_name" content="GIORGIA paris">
   <meta property="og:url" content="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/">
   <meta property="og:title" content="GIORGIA paris — Grossiste Prêt-à-Porter Féminin Paris">
-  <meta property="og:description" content="Collection Printemps-Été 2026 pour boutiques indépendantes. Minimum 100€ HT, livraison rapide depuis Paris.">
+  <meta property="og:description" content="Catalogue très large renouvelé en continu, prix de gros très attractifs pour boutiques indépendantes. Minimum 100€ HT, livraison rapide dans le monde entier.">
   <meta property="og:image" content="<!-- HERO_IMAGE_URL -->">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -37,7 +37,7 @@
   <meta property="og:locale:alternate" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GIORGIA paris — Grossiste Prêt-à-Porter Féminin Paris">
-  <meta name="twitter:description" content="Collection PE 2026 pour boutiques. Min. 100€ HT, livraison rapide depuis Paris.">
+  <meta name="twitter:description" content="Grossiste prêt-à-porter féminin pour boutiques. Min. 100€ HT, livraison rapide dans le monde entier.">
   <meta name="twitter:image" content="<!-- HERO_IMAGE_URL -->">
 
   <!-- ========== DONNÉES STRUCTURÉES (JSON-LD) ==========
@@ -75,7 +75,7 @@
 
   <style>
     /* =====================================================
-       GIORGIA paris — Catalogue PE 2026
+       GIORGIA paris — Catalogue
        =====================================================
        GUIDE MISE À JOUR :
        • Remplacer les photos produits : chercher "PHOTO-PRODUIT"
@@ -171,13 +171,95 @@
     }
     #navbar.scrolled { box-shadow: 0 4px 40px rgba(0,0,0,.07); }
 
-    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
-    .nav-links a {
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; align-items: center; }
+    .nav-links > li { position: relative; }
+    .nav-links a,
+    .nav-links .nav-dropdown-toggle {
       font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
       text-decoration: none; color: var(--taupe);
       transition: color .3s;
+      font-family: inherit;
+      display: inline-flex; align-items: center; gap: .35rem;
     }
-    .nav-links a:hover { color: var(--black); }
+    .nav-links a:hover,
+    .nav-links .nav-dropdown:hover .nav-dropdown-toggle,
+    .nav-links .nav-dropdown:focus-within .nav-dropdown-toggle { color: var(--black); }
+
+    /* ===================== NAV DROPDOWN "Catalogue" =====================
+       Ouverture 100% au hover (aussi accessible clavier via :focus-within
+       grâce à tabindex="0" sur le <li>). Le toggle est un <span>, pas un
+       <button>, pour ne pas requérir de clic. */
+    .nav-dropdown { cursor: default; outline: none; }
+    .nav-dropdown-toggle { cursor: default; user-select: none; }
+    .nav-dropdown-chev {
+      font-size: .85em; line-height: 1;
+      transition: transform .25s ease;
+    }
+    .nav-dropdown:hover .nav-dropdown-chev,
+    .nav-dropdown:focus-within .nav-dropdown-chev {
+      transform: rotate(180deg);
+    }
+    .nav-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-6px);
+      min-width: 280px;
+      /* Marge visuelle assurée par padding-top — sert de zone tampon
+         entre le toggle et le menu pour que la souris puisse traverser
+         sans que le menu se ferme (pas de "gap" mort). */
+      margin-top: 0;
+      padding-top: .6rem;
+      background: transparent;
+      list-style: none;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+      z-index: 250;
+    }
+    /* Fond blanc + bordure + ombre appliqués à un <div> interne virtuel via
+       ::before pour rester dans le bloc "menu" — ici on utilise un simple
+       fond via background sur le UL, décalé par le padding-top qui, lui,
+       reste transparent (donc hover-friendly). */
+    .nav-dropdown-menu::before {
+      content: "";
+      position: absolute;
+      top: .6rem; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,.98);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--gold);
+      box-shadow: 0 10px 40px rgba(0,0,0,.08);
+      z-index: -1;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    .nav-dropdown-menu li { list-style: none; position: relative; }
+    .nav-dropdown-menu a {
+      display: block;
+      padding: .7rem 1.5rem;
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      transition: background .2s, color .2s;
+      white-space: nowrap;
+    }
+    .nav-dropdown-menu a:hover {
+      background: rgba(197,163,106,.08);
+      color: var(--gold);
+    }
+    /* Séparateur entre les catégories et les liens Préventes / saisons */
+    .nav-dropdown-menu .nav-dropdown-sep {
+      height: 1px; margin: .35rem 1.5rem;
+      background: var(--border);
+    }
 
     .nav-right { display: flex; align-items: center; gap: 1rem; }
 
@@ -217,6 +299,26 @@
       width: 100%; text-align: center;
     }
     #mob-menu a:hover { color: var(--gold); }
+
+    /* Sous-titre "Catalogue" dans le menu mobile — liste plate (choix b) */
+    #mob-menu .mob-menu-heading {
+      font-family: var(--ff-body);
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 1.2rem 0 .3rem;
+      width: 100%; text-align: center;
+      opacity: .85;
+    }
+    /* Séparateur discret entre le groupe Univers et le reste du menu */
+    #mob-menu .mob-menu-sep {
+      width: 40px;
+      height: 1px;
+      background: rgba(255,255,255,.18);
+      margin: 1.4rem auto .6rem;
+    }
     .mob-close {
       position: absolute; top: 1.5rem; right: 2rem;
       background: none; border: none; color: var(--white);
@@ -265,16 +367,26 @@
       color: var(--gold-lt);
       letter-spacing: clamp(.3em, 2vw, .9em);
     }
-    .hero-tagline {
+    /* Accroche : le H1 porte le mot-clé SEO (1re ligne, discrète) et la
+       promesse (2e ligne, en grand). La ligne .hero-sub est l'argumentaire. */
+    .hero-tagline { margin: 1.3rem 0 1rem; }
+    .hero-kw {
+      display: block;
+      font-family: var(--ff-body); font-style: normal; font-weight: 500;
+      font-size: clamp(.62rem, 1.2vw, .76rem); letter-spacing: .14em; text-transform: uppercase;
+      color: rgba(255,255,255,.9); margin-bottom: .7rem;
+    }
+    .hero-promise {
+      display: block;
       font-family: var(--ff-display); font-style: italic; font-weight: 300;
-      font-size: clamp(1rem, 2vw, 1.5rem); color: rgba(255,255,255,.82);
-      line-height: 1.65; margin: 1.3rem 0 .5rem;
+      font-size: clamp(1.6rem, 3.6vw, 2.7rem); line-height: 1.2;
+      color: var(--white);
     }
     .hero-sub {
-      font-size: clamp(.60rem, 1.3vw, .75rem); letter-spacing: .12em; text-transform: uppercase;
-      color: rgba(255,255,255,.92); font-weight: 500;
-      margin-bottom: 2.2rem;
-      white-space: normal; line-height: 1.7;
+      font-size: clamp(.85rem, 1.4vw, .98rem); line-height: 1.7;
+      color: rgba(255,255,255,.84); font-weight: 400;
+      max-width: 46ch; margin: 0 0 2.2rem;
+      white-space: normal;
     }
     .btn-hero-p {
       display: inline-block; font-size: .68rem; font-weight: 500; letter-spacing: .18em;
@@ -291,6 +403,22 @@
       padding: .85rem 2.2rem; transition: all .3s;
     }
     .btn-hero-s:hover { background: var(--charcoal); transform: translateY(-2px); }
+
+    /* Mention marketplace sous les CTA du hero — volontairement discrète :
+       c'est une information et une réassurance, pas un appel à l'action. */
+    .hero-marketplace {
+      margin-top: 1.5rem;
+      font-size: .78rem;
+      color: var(--taupe);
+      letter-spacing: .01em;
+    }
+    .hero-marketplace a {
+      color: var(--taupe);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(138,124,110,.35);
+      transition: color .25s, border-color .25s;
+    }
+    .hero-marketplace a:hover { color: var(--gold); border-color: var(--gold); }
     .hero-btns {
       display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 0;
     }
@@ -586,6 +714,110 @@
       .ed-txt { padding: 2rem 1.5rem; }
     }
 
+    /* ===================== BANDEAU NOUVELLE COLLECTION =====================
+       Généré par renderSeasonBanner() dans build.mjs, juste après les
+       Préventes. Absent tant qu'aucun produit n'est taggé dans Airtable. */
+    .season-bn { background: var(--cream-dark); padding: 3.2rem 3.5rem; }
+    .season-bn-inner {
+      max-width: 1400px; margin: 0 auto;
+      display: grid; grid-template-columns: minmax(260px, 1fr) 2fr;
+      gap: 3rem; align-items: center;
+    }
+    .season-bn-eye {
+      font-size: .68rem; letter-spacing: .28em; text-transform: uppercase; color: var(--gold);
+    }
+    .season-bn h2 {
+      font-family: var(--ff-display); font-weight: 300; font-style: italic;
+      font-size: clamp(1.9rem, 3.4vw, 2.9rem); line-height: 1.1;
+      color: var(--black); margin: .6rem 0 .9rem;
+    }
+    .season-bn p { font-size: .88rem; line-height: 1.8; color: var(--taupe); max-width: 36ch; }
+    .season-bn-cta {
+      display: inline-block; margin-top: 1.4rem;
+      font-size: .68rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+      text-decoration: none; color: var(--white); background: var(--black);
+      padding: .9rem 2.2rem; transition: background .3s;
+    }
+    .season-bn-cta:hover { background: var(--charcoal); }
+    .season-bn-cta:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+    .season-bn-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; }
+    .season-bn-thumb { display: block; aspect-ratio: 3/4; overflow: hidden; background: var(--cream); }
+    .season-bn-thumb picture, .season-bn-thumb img { display: block; width: 100%; height: 100%; }
+    .season-bn-thumb img { object-fit: cover; transition: transform .6s var(--ease); }
+    .season-bn-thumb:hover img { transform: scale(1.04); }
+    @media(max-width:900px) {
+      .season-bn { padding: 2.6rem 1.5rem; }
+      .season-bn-inner { grid-template-columns: 1fr; gap: 1.6rem; }
+      .season-bn-thumbs { grid-template-columns: repeat(4, 1fr); gap: .5rem; }
+    }
+    @media(max-width:520px) {
+      .season-bn-thumbs { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ===================== STRATE VALEUR GIORGIA =====================
+       Remplace « Votre stock. Notre expertise. » — générée par
+       renderValueStrate() dans build.mjs. Image à gauche, texte et
+       quatre piliers à droite sur fond noir. */
+    .valeurs {
+      display: grid; grid-template-columns: 5fr 7fr;
+      background: var(--black); color: var(--white);
+    }
+    .val-img { position: relative; overflow: hidden; min-height: 100%; }
+    .val-img picture, .val-img img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+    }
+    .val-img img { object-fit: cover; object-position: center top; }
+    .val-txt {
+      padding: 4rem 4rem 4.2rem;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .val-txt .sec-eye { color: var(--gold); }
+    .val-txt .sec-title {
+      color: var(--white); font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+      margin-top: .6rem;
+    }
+    .val-intro {
+      font-size: .86rem; line-height: 1.85; color: rgba(255,255,255,.68);
+      max-width: 52ch; margin-top: 1rem;
+    }
+    .val-list {
+      list-style: none;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2rem 2.8rem; margin-top: 2.4rem;
+    }
+    .val-list li { border-top: 1px solid rgba(197,163,106,.45); padding-top: 1rem; }
+    .val-list h3 {
+      font-family: var(--ff-display); font-weight: 400; font-style: italic;
+      font-size: 1.35rem; line-height: 1.25; color: var(--gold-lt);
+    }
+    .val-list p {
+      font-size: .8rem; line-height: 1.8; color: rgba(255,255,255,.66);
+      margin-top: .45rem; max-width: 40ch;
+    }
+    .val-ctas {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 2rem;
+      margin-top: 2.6rem;
+    }
+    .val-ctas .btn-ed { margin-top: 0; }
+    .val-link {
+      font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--white); text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,.35); padding-bottom: .2rem;
+      transition: color .3s, border-color .3s;
+    }
+    .val-link:hover, .val-link:focus-visible { color: var(--gold); border-color: var(--gold); }
+    .val-ctas a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+    @media(max-width:1000px) {
+      .valeurs { grid-template-columns: 1fr; }
+      .val-img { min-height: 0; aspect-ratio: 16/9; }
+      .val-txt { padding: 3rem 1.5rem 3.2rem; }
+    }
+    @media(max-width:600px) {
+      .val-list { grid-template-columns: 1fr; gap: 1.5rem; }
+      .val-img { aspect-ratio: 4/3; }
+    }
+
     /* ===================== CONTACT ===================== */
     #contact {
       background: var(--charcoal); padding: 6rem 3.5rem;
@@ -682,6 +914,100 @@
     }
     .foot-copy { font-size: .62rem; color: rgba(255,255,255,.85); letter-spacing: .05em; }
 
+    /* ===================== BANDE PARTENAIRES =====================
+       Les logos fournis sont en noir pur (#000) sur fond transparent.
+       Sur fond sombre ils seraient invisibles : la variante --dark les
+       inverse en blanc via brightness(0) invert(1). Sur fond clair
+       (--light) ils restent noirs, simplement atténués.
+       Traitement volontairement sobre : c'est une preuve, pas un CTA. */
+    .partners-band {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 1.1rem;
+    }
+    .partners-label {
+      font-size: .6rem; letter-spacing: .22em; text-transform: uppercase;
+    }
+    .partners-list {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+      gap: 1.4rem 3rem;
+    }
+    .partner-item {
+      display: inline-flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      transition: opacity .3s var(--ease), filter .3s var(--ease);
+    }
+    .partner-item img {
+      height: auto; width: auto;
+      object-fit: contain;
+      display: block;
+    }
+    .partner-item .partner-name {
+      font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* — Variante sombre : footer — */
+    .partners-band--dark {
+      padding: 2rem 1.5rem 1.4rem;
+      border-top: 1px solid rgba(255,255,255,.08);
+      margin-top: 1.5rem;
+    }
+    .partners-band--dark .partners-label { color: rgba(255,255,255,.42); }
+    .partners-band--dark .partner-item {
+      /* brightness(0) aplatit le logo en noir, invert(1) le passe en blanc.
+         Fonctionne quelle que soit la couleur d'origine du fichier. */
+      filter: brightness(0) invert(1);
+      opacity: .55;
+    }
+    .partners-band--dark .partner-item:hover { opacity: 1; }
+    .partners-band--dark .partner-name { color: rgba(255,255,255,.75); }
+
+    /* — Variante claire : conservée pour un usage éventuel sur fond crème — */
+    .partners-band--light .partners-label { color: var(--taupe); opacity: .7; }
+    .partners-band--light .partner-item { opacity: .6; }
+    .partners-band--light .partner-item:hover { opacity: 1; }
+    .partners-band--light .partner-name { color: var(--charcoal); }
+
+    /* — Strate de la home —
+       Même fond charcoal que la strate "Qui sommes-nous", pour marquer la
+       rupture avec les strates crème qui l'encadrent.
+       Hauteur volontairement compacte : c'est une respiration de
+       réassurance, pas une section à part entière. */
+    .partners-section {
+      background: var(--charcoal);
+      padding: 2.6rem 2rem 2.2rem;
+    }
+    .partners-section-inner {
+      max-width: 860px; margin: 0 auto; text-align: center;
+    }
+    .partners-section-title {
+      font-family: var(--ff-display);
+      font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: .55rem;
+      letter-spacing: -.005em;
+    }
+    .partners-section-sub {
+      font-size: .87rem; line-height: 1.6;
+      color: rgba(255,255,255,.6);
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+    }
+    /* Dans la strate, la bande n'a ni filet ni marge : le fond suffit
+       à la séparer du reste de la page. */
+    .partners-section .partners-band {
+      padding: 0;
+      border-top: none;
+      margin-top: 0;
+      gap: .8rem;
+    }
+
+    @media(max-width:700px) {
+      .partners-section { padding: 2.2rem 1.4rem 1.9rem; }
+      .partners-section-sub { margin-bottom: 1.3rem; font-size: .84rem; }
+    }
+
     /* Barre de liens légaux (mentions, CGV, RGPD, retours). Signal E-E-A-T
        pour Google et réassurance pour les acheteuses pro. */
     .foot-legal {
@@ -701,6 +1027,8 @@
       .foot-right { text-align: center; }
       .foot-bottom { padding: 1rem 1.5rem; }
       .foot-legal { gap: .3rem 1rem; }
+      .partners-list { gap: 1.1rem 1.8rem; }
+      .partner-item img { transform: scale(.82); }
       .foot-legal .sep { display: none; }
     }
 
@@ -1089,8 +1417,8 @@
        le site n'est qu'une partie du catalogue total.
        ========================================================= */
     .wa-catalog {
-      background: var(--charcoal);
-      color: var(--pv-text);
+      background: var(--cream);
+      color: var(--black);
       padding: 3rem 1.5rem;
       margin: 2rem 0;
     }
@@ -1113,11 +1441,11 @@
       font-family: var(--ff-display);
       font-size: clamp(1.35rem, 2.4vw, 1.85rem);
       font-weight: 400; line-height: 1.2;
-      color: var(--pv-text);
+      color: var(--black);
       margin-bottom: .55rem;
     }
     .wa-catalog-text p {
-      color: var(--pv-text-mut);
+      color: var(--taupe);
       font-size: .92rem; line-height: 1.55;
       max-width: 580px;
     }
@@ -1130,11 +1458,12 @@
       font-size: .68rem; font-weight: 500;
       letter-spacing: .18em; text-transform: uppercase;
       padding: .95rem 2rem;
-      transition: background .25s var(--ease), transform .25s var(--ease);
+      transition: background .25s var(--ease), color .25s var(--ease), transform .25s var(--ease);
       white-space: nowrap;
     }
     .wa-catalog-cta:hover {
-      background: var(--white);
+      background: var(--charcoal);
+      color: var(--white);
       transform: translateY(-1px);
     }
     @media (max-width: 880px) {
@@ -1193,7 +1522,7 @@
         </a>
 
         <!-- WhatsApp -->
-        <a class="sp-row" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20PE%202026." target="_blank">
+        <a class="sp-row" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20des%20informations%20sur%20votre%20catalogue." target="_blank">
           <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <rect width="24" height="24" rx="5" fill="#25D366"/>
             <path fill="white" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
@@ -1280,7 +1609,7 @@
       <!-- NAV_LINKS -->
     </ul>
     <div class="nav-right">
-      <a class="btn-nav" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer sponsored">Commander</a>
+      <a class="btn-nav" href="<!-- SITE_BASE -->/contact/">Contacter l'équipe</a>
       <div class="hamburger" onclick="openMob()" role="button" aria-label="Ouvrir le menu" tabindex="0"><span></span><span></span><span></span></div>
     </div>
   </nav>
@@ -1296,7 +1625,7 @@
       <div class="hero-bg"></div>
       <div class="hero-grad"></div>
       <div class="hero-content">
-        <p class="hero-eyebrow">Collection Printemps-Été 2026</p>
+        <p class="hero-eyebrow"><!-- HERO_EYEBROW --></p>
         <div class="hero-logo logo" style="margin-bottom:.8rem">
           <span class="logo-g" style="font-size:clamp(2.8rem,7vw,5.5rem);color:#fff;letter-spacing:.5em">GIORGIA</span>
           <span class="logo-p" style="font-size:clamp(.9rem,1.6vw,1.4rem);color:#E2CFA8;letter-spacing:.9em">paris</span>
@@ -1307,12 +1636,27 @@
              (la classe .hero-tagline était déjà stylée en serif italique).
              Le contenu inclut les mots-clés commerciaux clés :
              "grossiste", "prêt-à-porter féminin", "Paris". -->
-        <h1 class="hero-tagline">Grossiste en prêt-à-porter féminin à Paris,<br>GIORGIA vous accompagne pour proposer les plus belles pièces à vos clientes.</h1>
-        <p class="hero-sub">Grossiste Prêt-à-Porter Féminin · Depuis 2007 · Aubervilliers, Paris</p>
+        <h1 class="hero-tagline">
+          <span class="hero-kw">Grossiste prêt-à-porter féminin à Paris</span>
+          <span class="hero-promise">De quoi remplir vos rayons.<br>Et vos marges.</span>
+        </h1>
+        <p class="hero-sub">Des nouveautés en continu, des prix de gros très attractifs et une livraison rapide dans le monde entier. Au service des boutiques indépendantes depuis 2007.</p>
         <div class="hero-btns">
-          <a class="btn-hero-p" href="#summer">Découvrir la collection</a>
-          <a class="btn-hero-s" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">Passer commande</a>
+          <!-- HERO_CTA_HREF est piloté par build.mjs :
+               • s'il y a des produits de la collection de saison → sa page
+               • sinon, s'il y a des produits en Prévente → "#preventes"
+               • sinon → première catégorie visible de la home -->
+          <a class="btn-hero-p" href="<!-- HERO_CTA_HREF -->">Découvrir la collection</a>
+          <a class="btn-hero-s" href="<!-- SITE_BASE -->/contact/">Contacter l'équipe</a>
         </div>
+        <!-- Mention marketplace : volontairement en lien tertiaire discret.
+             La commande en direct (WhatsApp / page contact) est le canal
+             privilégié — pas de commission. La marketplace reste accessible
+             pour qui préfère commander en ligne, et sert de réassurance. -->
+        <p class="hero-marketplace">
+          Vous préférez commander en ligne&nbsp;?
+          <a href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer nofollow sponsored">Notre catalogue est aussi sur Paris&nbsp;Fashion&nbsp;Shops</a>
+        </p>
       </div>
       <div class="hero-scroll">Scroll</div>
     </div>
@@ -1325,6 +1669,11 @@
        (build.mjs renvoie une chaîne vide → aucun bloc dans le HTML final). -->
   <!-- PREVENTES_SECTION -->
 
+  <!-- ========== ENCART WHATSAPP CATALOGUE ==========
+       Placé juste après les préventes pour rester haut sur la page et
+       maximiser le rebond commercial vers WhatsApp. -->
+  <!-- WA_CATALOGUE_SECTION -->
+
   <!-- ========== INTRO STRIP ========== -->
   <div class="intro-strip">
     <div class="logo">
@@ -1333,7 +1682,7 @@
     </div>
     <div class="intro-text">
       <h2>Qui sommes-nous ?</h2>
-      <p>Grossiste B2B basé à Aubervilliers depuis 2007, GIORGIA paris propose chaque saison une sélection soigneusement construite : des pièces alliant tendance, finition et accessibilité. Des vêtements qui séduiront dans vos rayons — et pour lesquels vos clientes reviendront. Livraison rapide depuis notre stock parisien.</p>
+      <p>Grossiste B2B basé à Aubervilliers depuis 2007, GIORGIA paris propose un <strong>catalogue très large et renouvelé en continu</strong>, des pièces qui allient tendance, finition et <strong>prix très attractifs</strong>. Une boutique indépendante n'a pas besoin qu'on choisisse à sa place — elle a besoin de <strong>matière à composer</strong> pour construire son propre assortiment. Des vêtements qui séduiront dans vos rayons — et pour lesquels vos clientes reviendront. <strong>Livraison rapide dans le monde entier</strong> depuis notre stock parisien.</p>
     </div>
     <div class="intro-stats">
       <div>
@@ -1367,7 +1716,7 @@
       </div>
       <h2 class="contact-title">Prêt à passer votre <span>commande</span> ?<br>Une <span>question</span> ?</h2>
       <p class="contact-body">Notre équipe est disponible pour répondre à toutes vos demandes : disponibilité des packs, conditions tarifaires, délais de livraison, nouveautés à venir. Un partenariat de confiance, une collection qui tourne — c'est ça, GIORGIA paris.</p>
-      <p class="contact-note">Minimum de commande : 100€ HT · Livraison rapide depuis Paris · Produits disponibles par pack de 6, tailles S/M ou M/L</p>
+      <p class="contact-note">Minimum de commande : 100€ HT · Livraison rapide dans le monde entier · Produits disponibles par pack de 6, tailles S/M ou M/L</p>
     </div>
 
     <div>
@@ -1394,7 +1743,7 @@
           </svg>
           <div>
             <span class="ci-label">Commander sur WhatsApp</span>
-            <div class="ci-val"><a href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026." target="_blank">+33 6 86 72 93 11</a></div>
+            <div class="ci-val"><a href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20des%20informations%20sur%20votre%20catalogue." target="_blank">+33 6 86 72 93 11</a></div>
           </div>
         </li>
 
@@ -1567,17 +1916,16 @@
 
     </div>
 
-    <!-- Liens légaux : signal E-E-A-T pour Google + conformité LCEN / RGPD -->
+    <!-- Bande de réassurance : plateformes sur lesquelles GIORGIA est
+         référencée. Générée par renderPartnersBand() dans build.mjs.
+         Placée après les CTA de contact et avant les liens légaux. -->
+    <!-- PARTNERS_BAND -->
+
+    <!-- Liens légaux : signal E-E-A-T pour Google + conformité LCEN / RGPD.
+         Générés par renderFootLegalLinks() dans build.mjs — source unique,
+         partagée avec les pages dédiées et les pages articles. -->
     <nav class="foot-legal" aria-label="Informations légales">
-      <a href="<!-- SITE_BASE -->/notre-histoire/">Qui sommes-nous</a>
-      <span class="sep" aria-hidden="true">·</span>
-      <a href="<!-- SITE_BASE -->/mentions-legales/">Mentions légales</a>
-      <span class="sep" aria-hidden="true">·</span>
-      <a href="<!-- SITE_BASE -->/cgv/">CGV</a>
-      <span class="sep" aria-hidden="true">·</span>
-      <a href="<!-- SITE_BASE -->/confidentialite/">Politique de confidentialité</a>
-      <span class="sep" aria-hidden="true">·</span>
-      <a href="<!-- SITE_BASE -->/politique-retour/">Politique de retour</a>
+      <!-- FOOT_LEGAL_LINKS -->
     </nav>
 
     <div class="foot-bottom">
@@ -1597,7 +1945,7 @@
     const DEFAULT_WHATSAPP_LINK =
       'https://wa.me/33686729311?text=' +
       encodeURIComponent(
-        'Bonjour GIORGIA paris, je souhaite passer commande pour la collection PE 2026.'
+        'Bonjour GIORGIA paris, je souhaite passer commande.'
       );
     const PROD_REF_LINE = '';
 
@@ -1611,13 +1959,38 @@
        une vignette, survol de la photo principale.
     ===================================================== */
 
-    /* Liste des carrousels à initialiser. Doit rester synchronisée avec
-       le tableau UNIVERS dans scripts/build.mjs (mêmes ids).
-       'preventes' est un carrousel spécial rendu dynamiquement par build.mjs
-       SI au moins un produit est coché 'Prévente' dans Airtable. Si la
-       section n'est pas rendue, getElementById('track-preventes') renverra
-       null et initCarousel sortira proprement (early return). */
-    const CAROUSEL_IDS = ['preventes', 'summer', 'working', 'chic', 'boheme', 'casual'];
+    /* Liste des carrousels à initialiser sur cette page. Injectée par build.mjs
+       depuis les univers dont `location === 'home'` (+ 'preventes' si applicable).
+       Les univers archive ('summer', 'boheme') sont initialisés sur leur page
+       dédiée /collection-printemps-ete-2026/. */
+    const CAROUSEL_IDS = <!-- CAROUSEL_IDS_JS -->;
+
+    /* ====================================================================
+       REDIRECTION LEGACY ANCHORS
+       -------------------------------------------------------------------
+       Les ancres #summer et #boheme n'existent plus sur la home. Si un
+       visiteur arrive via un lien externe (Google, backlink, ancien signet)
+       pointant vers /#summer ou /#boheme, on le redirige proprement vers
+       /collection-printemps-ete-2026/#summer (ou #boheme).
+       Le préfixe <!-- SITE_BASE --> est vide en prod, '/<repo>' en qualif.
+    ==================================================================== */
+    (function redirectLegacyHomeAnchors() {
+      const legacyIds = ['summer', 'boheme'];
+      const hash = (window.location.hash || '').replace(/^#/, '');
+      if (legacyIds.includes(hash)) {
+        const target = '<!-- SITE_BASE -->/collection-printemps-ete-2026/#' + hash;
+        window.location.replace(target);
+        return;
+      }
+      /* Catégories renommées (sept. 2026) : #working → #pantalons, etc.
+         Table générée par build.mjs depuis `legacyIds` de la config UNIVERS.
+         On ne redirige que si la nouvelle section existe sur la page. */
+      const renamed = <!-- LEGACY_ANCHORS_JS -->;
+      const next = renamed[hash];
+      if (next && document.getElementById(next)) {
+        window.location.replace('#' + next);
+      }
+    })();
 
     /* =====================================================
        CARROUSEL — logique partagée
@@ -1757,7 +2130,7 @@
 
     /* Resize : recalcule sans réattacher les listeners */
     function onResize() {
-      ['summer', 'working', 'chic', 'boheme', 'casual'].forEach(id => {
+      CAROUSEL_IDS.forEach(id => {
         if (!carState[id]) return;
         carState[id].pos = 0;
         buildDots(id);
