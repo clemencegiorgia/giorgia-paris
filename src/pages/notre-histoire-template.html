@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="theme-color" content="#161616">
+
+  <!-- ==================== SEO ==================== -->
+  <title>Qui sommes-nous — GIORGIA paris | Grossiste Prêt-à-Porter Féminin depuis 2007</title>
+  <meta name="description" content="GIORGIA paris, grossiste en prêt-à-porter féminin depuis 2007 à Aubervilliers : un catalogue très large renouvelé en continu, des prix très attractifs et de grosses marges pour les boutiques indépendantes, livrées rapidement dans le monde entier.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/notre-histoire/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/notre-histoire/">
+  <meta property="og:title" content="Qui sommes-nous — GIORGIA paris">
+  <meta property="og:description" content="Grossiste parisien en prêt-à-porter féminin depuis 2007 : choix très large, prix très attractifs, grosses marges pour les boutiques.">
+  <meta property="og:image" content="<!-- SITE_ORIGIN --><!-- PAGE_HERO_URL -->">
+  <meta property="og:site_name" content="GIORGIA paris">
+  <meta property="og:locale" content="fr_FR">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Qui sommes-nous — GIORGIA paris">
+  <meta name="twitter:description" content="Grossiste parisien en prêt-à-porter féminin depuis 2007.">
+  <meta name="twitter:image" content="<!-- SITE_ORIGIN --><!-- PAGE_HERO_URL -->">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Préchargement de la hero (LCP) -->
+  <link rel="preload" as="image" href="<!-- PAGE_HERO_URL -->">
+
+  <!-- CSS partagée du site (extraite de src/template.html par build.mjs) -->
+  <!-- SHARED_STYLES -->
+
+  <!-- Styles spécifiques à la page Qui sommes-nous -->
+  <style>
+    /* ===================== HERO ÉDITORIALE ===================== */
+    .histoire-hero {
+      position: relative;
+      min-height: 62vh;
+      display: flex;
+      align-items: center;
+      background-image:
+        linear-gradient(90deg, rgba(246,241,234,.96) 0%, rgba(246,241,234,.80) 45%, rgba(42,39,36,.45) 100%),
+        var(--histoire-hero-img);
+      background-size: cover;
+      background-position: center;
+      padding: 9rem 3.5rem 5rem;
+      isolation: isolate;
+    }
+    .histoire-hero-inner { max-width: 1400px; margin: 0 auto; width: 100%; }
+    .histoire-hero-text { max-width: 640px; }
+    .histoire-eyebrow {
+      font-size: .68rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      margin-bottom: 1.6rem;
+    }
+    .histoire-hero h1 {
+      font-family: var(--ff-display);
+      font-size: clamp(2.2rem, 5.2vw, 3.8rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--black);
+      margin-bottom: 1.6rem;
+      letter-spacing: -.015em;
+    }
+    .histoire-hero h1 em {
+      font-style: italic;
+      display: block;
+    }
+    .histoire-hero-sub {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--taupe);
+      max-width: 540px;
+    }
+
+    /* ===================== BREADCRUMB ===================== */
+    .breadcrumb {
+      padding: 1.6rem 3.5rem .4rem;
+      font-size: .68rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .breadcrumb a { color: var(--taupe); text-decoration: none; transition: color .25s; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb .sep { margin: 0 .55rem; opacity: .5; }
+
+    /* ===================== CORPS ÉDITORIAL ===================== */
+    .histoire-body {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 4.5rem 2rem 2rem;
+    }
+    .histoire-body p {
+      font-size: 1.02rem;
+      line-height: 1.85;
+      color: var(--charcoal);
+      margin-bottom: 1.5rem;
+    }
+    .histoire-body p.lead {
+      font-family: var(--ff-display);
+      font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+      line-height: 1.55;
+      color: var(--black);
+      font-weight: 400;
+      margin-bottom: 2.2rem;
+    }
+    .histoire-body h2 {
+      font-family: var(--ff-display);
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      font-weight: 400;
+      color: var(--black);
+      margin: 3rem 0 1.2rem;
+      letter-spacing: -.01em;
+    }
+    .histoire-body strong { color: var(--black); font-weight: 600; }
+    .histoire-body a { color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(197,163,106,.35); transition: border-color .25s; }
+    .histoire-body a:hover { border-color: var(--gold); }
+
+    /* ===================== CHIFFRES CLÉS ===================== */
+    .histoire-stats {
+      background: var(--cream);
+      padding: 4rem 2rem;
+      margin: 4rem 0;
+    }
+    .histoire-stats-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2.5rem;
+      text-align: center;
+    }
+    .histoire-stat-num {
+      font-family: var(--ff-display);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 400;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: .6rem;
+    }
+    .histoire-stat-lbl {
+      font-size: .7rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      line-height: 1.5;
+    }
+
+    /* ===================== QUATRE PILIERS =====================
+       Mêmes piliers que la strate de la home : choix, prix & marges,
+       qualité, service. Pas de numérotation : ce n'est pas une séquence. */
+    .histoire-values-wrap { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0; }
+    .histoire-values-title {
+      font-family: var(--ff-display); font-weight: 400;
+      font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--black);
+      text-align: center; margin-bottom: 2.6rem;
+    }
+    .histoire-values {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.2rem;
+    }
+    .histoire-value { border-top: 1px solid var(--gold); padding-top: 1.2rem; }
+    .histoire-value h3 {
+      font-family: var(--ff-display); font-size: 1.35rem; font-style: italic;
+      font-weight: 400; color: var(--black); margin-bottom: .7rem; line-height: 1.25;
+    }
+    .histoire-value p { font-size: .92rem; line-height: 1.75; color: var(--taupe); }
+    @media (max-width: 1000px) { .histoire-values { grid-template-columns: repeat(2, 1fr); gap: 2rem 2.4rem; } }
+    @media (max-width: 600px)  { .histoire-values { grid-template-columns: 1fr; } }
+
+    /* ===================== CTA FINAL ===================== */
+    .histoire-cta {
+      background: var(--charcoal);
+      color: var(--white);
+      padding: 5rem 2rem;
+      text-align: center;
+      margin-top: 5rem;
+    }
+    .histoire-cta h2 {
+      font-family: var(--ff-display);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .histoire-cta p {
+      color: rgba(255,255,255,.72);
+      max-width: 580px;
+      margin: 0 auto 2.2rem;
+      line-height: 1.7;
+    }
+    .histoire-cta-btns {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    }
+    .histoire-cta-btns a {
+      display: inline-block;
+      padding: .95rem 2.2rem;
+      font-size: .68rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all .3s var(--ease);
+    }
+    .histoire-cta-btns .cta-primary { background: var(--gold); color: var(--black); }
+    .histoire-cta-btns .cta-primary:hover { background: var(--white); transform: translateY(-1px); }
+    .histoire-cta-btns .cta-secondary { color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
+    .histoire-cta-btns .cta-secondary:hover { background: var(--gold); color: var(--black); }
+
+    @media (max-width: 900px) {
+      .histoire-hero {
+        padding: 7rem 1.5rem 3.5rem;
+        min-height: auto;
+        background-image:
+          linear-gradient(180deg, rgba(246,241,234,.95) 0%, rgba(246,241,234,.88) 60%, rgba(42,39,36,.35) 100%),
+          var(--histoire-hero-img);
+      }
+      .breadcrumb { padding: 1.2rem 1.5rem .4rem; }
+      .histoire-body { padding: 3rem 1.4rem 1rem; }
+      .histoire-stats-inner { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+      .histoire-cta { padding: 3.5rem 1.4rem; }
+    }
+  </style>
+
+  <!-- JSON-LD (BreadcrumbList + AboutPage) -->
+  <!-- PAGE_JSON_LD -->
+</head>
+<body style="--histoire-hero-img: url('<!-- PAGE_HERO_URL -->')">
+
+  <!-- ========== BANDEAU STICKY WHATSAPP ========== -->
+  <!-- ========== BANDEAU STICKY WHATSAPP (partagé, extrait de template.html) ==========
+       Ne PAS recopier le markup ici : son SVG dépend du wrapper .wa-banner-icon
+       défini dans la CSS du site. -->
+  <!-- SHARED_WA_BANNER -->
+
+  <!-- ========== STICKY CONTACT PANEL ========== -->
+  <!-- SHARED_STICKY_CONTACT -->
+
+  <!-- ========== MOBILE MENU ========== -->
+  <div id="mob-menu">
+    <button class="mob-close" onclick="closeMob()" aria-label="Fermer le menu">✕</button>
+    <!-- MOB_MENU_LINKS -->
+  </div>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav id="navbar" aria-label="Navigation principale">
+    <a class="logo" href="<!-- SITE_BASE -->/" aria-label="GIORGIA paris — Accueil">
+      <span class="logo-g">GIORGIA</span>
+      <span class="logo-p">paris</span>
+    </a>
+    <ul class="nav-links">
+      <!-- NAV_LINKS -->
+    </ul>
+    <div class="nav-right">
+      <a class="btn-nav" href="<!-- SITE_BASE -->/contact/">Contacter l'équipe</a>
+      <div class="hamburger" onclick="openMob()" role="button" aria-label="Ouvrir le menu" tabindex="0"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <header class="histoire-hero">
+    <div class="histoire-hero-inner">
+      <div class="histoire-hero-text">
+        <p class="histoire-eyebrow">GIORGIA paris — Depuis 2007</p>
+        <h1>Un grossiste parisien<br>au service des<br><em>boutiques indépendantes</em></h1>
+        <p class="histoire-hero-sub">De notre showroom d'Aubervilliers, au cœur du triangle d'or du prêt-à-porter parisien, nous accompagnons les boutiques de mode en France et dans le monde entier — avec des collections qui tournent et des partenariats qui durent.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== BREADCRUMB ========== -->
+  <nav class="breadcrumb" aria-label="Fil d'Ariane">
+    <a href="<!-- SITE_BASE -->/">Accueil</a>
+    <span class="sep" aria-hidden="true">›</span>
+    <span aria-current="page">Qui sommes-nous</span>
+  </nav>
+
+  <!-- ==========================================================
+       CORPS ÉDITORIAL — réécrit (lot D, sept. 2026) autour des quatre
+       piliers : choix, prix & marges, qualité, service.
+       ========================================================== -->
+  <article class="histoire-body">
+    <p class="lead">GIORGIA paris est un grossiste en prêt-à-porter féminin fondé en 2007 et installé à Aubervilliers. Depuis près de vingt ans, nous fournissons les boutiques indépendantes avec une promesse simple : beaucoup de choix, des prix très attractifs et de belles marges à la revente.</p>
+
+    <p>Une boutique indépendante n'a pas les mêmes besoins qu'une enseigne de chaîne. Elle a besoin de <strong>pièces qui se vendent</strong>, de quantités raisonnables, d'un interlocuteur qui répond et d'un réassort possible quand un modèle part plus vite que prévu. C'est autour de ces besoins que nous avons construit notre façon de travailler.</p>
+
+    <h2>Un choix très large, renouvelé en continu</h2>
+
+    <p>Notre parti pris est celui de l'<strong>abondance maîtrisée</strong>. Une boutique n'a pas besoin qu'on choisisse à sa place : elle connaît sa clientèle mieux que personne. Ce qu'il lui faut, c'est de la <strong>matière à composer</strong>. Notre catalogue est donc très large, et de nouvelles pièces arrivent tout au long de la saison. Vos rayons restent vivants, et vos clientes fidèles trouvent du nouveau à chaque visite.</p>
+
+    <p>Pour vous y retrouver, <a href="<!-- SITE_BASE -->/">notre catalogue</a> est organisé par type de pièce : manteaux et vestes, mailles et pulls, robes et jupes, tops et bodys, pantalons et ensembles. Chaque saison a aussi sa page, comme la <a href="<!-- SITE_BASE -->/collection-automne-hiver-2026/">Collection Automne-Hiver 2026</a>.</p>
+
+    <h2>Des prix très attractifs, de grosses marges pour votre boutique</h2>
+
+    <p>Nous vendons en direct, depuis notre propre stock, sans plateforme ni intermédiaire à rémunérer. C'est ce qui nous permet de proposer des <strong>prix de gros très attractifs</strong> et de vous laisser de <strong>grosses marges à la revente</strong>. Votre marge, c'est ce qui fait vivre votre boutique : nous en tenons compte dans chacun de nos prix.</p>
+
+    <p>Le format de commande va dans le même sens. Les pièces sont vendues par <strong>pack de 6</strong> (tailles S/M ou M/L), avec un <strong>minimum de commande de 100 € HT</strong>. Vous pouvez tester un modèle ou une tendance sans immobiliser votre trésorerie.</p>
+
+    <!-- ⚠ SIRI : paragraphe qualité volontairement général. Dès que tu as des
+         éléments concrets (origine de fabrication, matières, contrôle des
+         pièces, ateliers partenaires…), on les ajoute ici : c'est l'argument
+         le plus convaincant pour une acheteuse. -->
+    <h2>Une qualité qui fait revenir vos clientes</h2>
+
+    <p>Une pièce qui se vend bien, c'est aussi une pièce qui tient ses promesses une fois portée. Nous choisissons nos modèles pour leurs <strong>matières</strong>, leurs <strong>coupes</strong> et leurs <strong>finitions</strong>, et vous pouvez les voir et les toucher au showroom avant de commander.</p>
+
+    <h2>Un partenaire, pas un simple fournisseur</h2>
+
+    <p>Nous travaillons avec des boutiques de toutes tailles, de la première commande aux clientes fidèles depuis des années. Nous restons joignables, <strong>par WhatsApp, par email ou au showroom</strong>, et vous parlez directement à l'équipe qui prépare votre commande.</p>
+
+    <p>Depuis Aubervilliers, au cœur du triangle d'or du prêt-à-porter parisien, nous expédions rapidement depuis notre propre stock, <strong>en France comme dans le monde entier</strong>. Ce qui est annoncé disponible l'est réellement.</p>
+
+    <h2>Où nous trouver</h2>
+
+    <p>Notre showroom se visite sur rendez-vous au <strong>70 rue de la Haie Coq, 93300 Aubervilliers</strong>, à quelques minutes du métro Aubervilliers-Pantin-Quatre-Chemins. C'est l'occasion de voir les matières, d'essayer les coupes et d'échanger sur ce qui se vend en ce moment en boutique. Pour convenir d'un créneau, <a href="<!-- SITE_BASE -->/contact/">contactez-nous</a>.</p>
+  </article>
+
+  <!-- ========== CHIFFRES CLÉS ========== -->
+  <section class="histoire-stats" aria-label="GIORGIA paris en chiffres">
+    <div class="histoire-stats-inner">
+      <div>
+        <div class="histoire-stat-num">2007</div>
+        <div class="histoire-stat-lbl">Année de<br>fondation</div>
+      </div>
+      <div>
+        <div class="histoire-stat-num">100 €</div>
+        <div class="histoire-stat-lbl">Minimum de<br>commande HT</div>
+      </div>
+      <div>
+        <div class="histoire-stat-num">Monde</div>
+        <div class="histoire-stat-lbl">Livraison rapide<br>dans le monde entier</div>
+      </div>
+      <div>
+        <div class="histoire-stat-num">6</div>
+        <div class="histoire-stat-lbl">Pièces par pack<br>S/M ou M/L</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== QUATRE PILIERS ========== -->
+  <section class="histoire-values-wrap" aria-labelledby="histoire-values-title">
+    <h2 class="histoire-values-title" id="histoire-values-title">Pourquoi les boutiques travaillent avec nous</h2>
+    <div class="histoire-values">
+      <div class="histoire-value">
+        <h3>Un choix immense</h3>
+        <p>Un catalogue très large, renouvelé en continu, pour composer un assortiment qui vous ressemble et proposer du nouveau à vos clientes.</p>
+      </div>
+      <div class="histoire-value">
+        <h3>Des prix très attractifs</h3>
+        <p>Des prix de gros en direct, sans intermédiaire, pensés pour vous laisser de grosses marges à la revente.</p>
+      </div>
+      <div class="histoire-value">
+        <h3>Une qualité suivie</h3>
+        <p>Des matières, des coupes et des finitions choisies pour plaire en boutique, à voir et à toucher au showroom.</p>
+      </div>
+      <div class="histoire-value">
+        <h3>Un service rapide</h3>
+        <p>Stock en propre à Aubervilliers, livraison rapide dans le monde entier, une équipe joignable directement sur WhatsApp.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA FINAL ========== -->
+  <section class="histoire-cta">
+    <h2>Travaillons ensemble</h2>
+    <p>Vous tenez une boutique et cherchez un grossiste qui vous laisse de vraies marges ? Parcourez le catalogue ou écrivez directement à notre équipe.</p>
+    <div class="histoire-cta-btns">
+      <a class="cta-primary" href="<!-- SITE_BASE -->/">Découvrir le catalogue</a>
+      <a class="cta-secondary" href="<!-- SITE_BASE -->/contact/">Nous contacter</a>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <!-- SHARED_FOOTER -->
+
+  <!-- Payload catalogue vide (pas de produits affichés sur cette page) -->
+  <script id="giorgia-catalog-data">window.__GIORGIA_CATALOG__={version:2,generatedAt:new Date().toISOString(),count:0,products:[]};</script>
+
+  <!-- JS interactif partagé -->
+  <!-- SHARED_JS -->
+
+</body>
+</html>
