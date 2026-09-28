@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-28T22:31:42.043Z",
+  "generatedAt": "2026-09-28T22:32:07.477Z",
   "count": 122,
   "version": 3,
   "imagePipeline": {
-    "downloaded": 290,
-    "cached": 0,
+    "downloaded": 0,
+    "cached": 290,
     "failed": 0,
-    "compressionSavedKB": 50059
+    "compressionSavedKB": 0
   },
   "imageAudit": {
     "totalImages": 288,
