@@ -1848,7 +1848,7 @@
 
     <p>Notre parti pris est celui de l'<strong>abondance maîtrisée</strong>. Une boutique n'a pas besoin qu'on choisisse à sa place : elle connaît sa clientèle mieux que personne. Ce qu'il lui faut, c'est de la <strong>matière à composer</strong>. Notre catalogue est donc très large, et de nouvelles pièces arrivent tout au long de la saison. Vos rayons restent vivants, et vos clientes fidèles trouvent du nouveau à chaque visite.</p>
 
-    <p>Pour vous y retrouver, <a href="/">notre catalogue</a> est organisé par type de pièce : manteaux et vestes, mailles et pulls, robes et jupes, tops et bodys, pantalons et ensembles. Chaque saison a aussi sa page, comme la <a href="/collection-automne-hiver-2026/">Collection Automne-Hiver 2026</a>.</p>
+    <p>Pour vous y retrouver, <a href="/">notre catalogue</a> est organisé par type de pièce : manteaux et vestes, robes de soirée, tops et pulls, robes et jupes, pantalons et ensembles. Chaque saison a aussi sa page, comme la <a href="/collection-automne-hiver-2026-2027/">Collection Automne-Hiver 2026-2027</a>.</p>
 
     <h2>Des prix très attractifs, de grosses marges pour votre boutique</h2>
 
@@ -2341,49 +2341,16 @@
       if (sc && sc.classList.contains('open') && !sc.contains(e.target)) sc.classList.remove('open');
     });
 
-    /* ---- ARTICLES CAROUSEL (À LIRE AUSSI) — swipe natif uniquement ---- */
-    (function() {
-      const articlesTrack = document.getElementById('articles-track');
-      if (!articlesTrack) return;
-
-      // Charger le JSON des articles
-      fetch('./api/latest-articles.json')
-        .then(res => res.json())
-        .then(data => {
-          const articlesData = data.articles || [];
-          if (articlesData.length === 0) {
-            console.log('Pas d\'articles à afficher');
-            return;
-          }
-          renderCarousel(articlesData);
-        })
-        .catch(err => console.log('Erreur chargement articles:', err));
-
-      function renderCarousel(articlesData) {
-        articlesTrack.innerHTML = '';
-        articlesData.forEach(article => {
-          const dateObj = new Date(article.date_publication);
-          const dateStr = dateObj.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
-
-          const card = document.createElement('a');
-          card.href = `./tendances-conseils-pro/${article.slug}/`;
-          card.innerHTML = `
-            <div style="width: 100%; aspect-ratio: 4/3; overflow: hidden; background: var(--border);">
-              <img src="${article.hero_image_url}" alt="${article.title}" loading="lazy" decoding="async">
-            </div>
-            <div class="article-card-content">
-              <h3 class="article-card-title">${article.title}</h3>
-              <p class="article-card-excerpt">${article.chapo}</p>
-              <div class="article-card-meta">
-                <time datetime="${article.date_publication}">${dateStr}</time>
-                <span class="article-card-cta">Lire →</span>
-              </div>
-            </div>
-          `;
-          articlesTrack.appendChild(card);
-        });
-      }
-    })();
+    /* ---- ARTICLES (À LIRE AUSSI) ----
+       Les cartes sont écrites dans le HTML au build (visibles par Google).
+       Ici, seulement le défilement au clic sur les flèches. */
+    function scrollArticles(dir) {
+      const track = document.getElementById('articles-track');
+      if (!track) return;
+      const card = track.querySelector('a');
+      const step = card ? card.offsetWidth + 24 : 300; // largeur carte + gap 1.5rem
+      track.scrollBy({ left: dir * step, behavior: 'smooth' });
+    }
   </script>
 
 </body>
