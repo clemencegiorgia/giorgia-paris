@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-09-29T12:47:28.618Z",
+  "generatedAt": "2026-09-30T14:22:28.551Z",
   "count": 122,
   "version": 3,
   "imagePipeline": {
-    "downloaded": 287,
+    "downloaded": 286,
     "cached": 3,
     "failed": 0,
-    "compressionSavedKB": 49819
+    "compressionSavedKB": 49806
   },
   "imageAudit": {
-    "totalImages": 288,
-    "measured": 288,
-    "totalKB": 63662,
-    "avgKB": 221,
+    "totalImages": 287,
+    "measured": 287,
+    "totalKB": 63603,
+    "avgKB": 222,
     "heavyCount": 100,
     "top20Heavy": [
       {
@@ -20,140 +20,140 @@
         "nom": "Robe Longue Pois Foulard Signature",
         "field": "Photos 3",
         "sizeKB": 887,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/z9rOYWaX9Zo19S5yBSPCuQ/n7-KDMCLGxqKFq4JEqx9hUV5zUnPB2quoduw0CD9BPELbUD67q16UPROUK4CuH0Qhdxy5ZsAG4S-lM621yVAheu0zpmp8vMhSpheqMqclJ1l-UfAHZxJFMF2EeA5-QAGcTQOvcma5y6Hs39lv0MinA/AybGZCYLp44B7J_MH0E-zPM7UG6EWcMc-2cwtxw5134"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/IUeSrG5_OKoeTFwBxcPeMg/RigGfyZFAP9xIQ0gefK2v4-GRpaqR7313Ggz6C6KLdKNWhJZ9XNriPhJEnJVaPT2IGvzsolQUe3_bA8Mj12xLPZL8uYZUFSntJrV-eAZaBgmxnbK4PlTQ3kw99uYnzYFeICUEC4pNrAf_jzYx9wV3Q/R0JKGbZRI9TASIpOuk34d-h7MCgvTP8dDU5CpWXhapY"
       },
       {
         "ref": "26602",
         "nom": "Top en dentelle",
         "field": "Photos",
         "sizeKB": 822,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/3CveenTotaZk33TpASmXpw/GNRTDpSlYBNEFYJSZL3I7JfhN7SsZUg-jzw4-zNHvgC7AhrisUOchH8gR75t0zyAHm4bJ6rGu2txXbFw2MCUT5-RBcwzqxCCUGhKiFmnsnQUDg-CHtjEl035KRLyWDqlA2L5OV8sT5ScN6XuYlpq5Q/evc0lUKU6o8GJLyvsbcMCN0aZDxzH62mAe6HIkQZfnM"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/Qu6jYieAfdiyWlKWYp5l3A/YYSNXFV58eSW3lWgUHXYGM9d5uvJDXl59IGvqAUsDGCvRX9oQTNjSmnuTZu_PYtILNiKCyxcU6CILgy4At2I7Vr_ZGo9ZnTbo88hcImvKKd-N2zJ4OvreuiMG1yDg-TbNKcdKmNmndUTV0TyLM4yTQ/lDhU2s1uBAhUtH-eY09AR3lUxWov9siv5FMrl0dJz_A"
       },
       {
         "ref": "26393",
         "nom": "Robe Longue Pois Foulard Signature",
         "field": "Photos",
         "sizeKB": 793,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/e-0Ei46pnCPHDELyBomX4g/xDGXjSnBfnOXP3JpG4L5V004p-7tPJdDeMSn-bHvFelXNuFf5L5_321Z97H1uTCAYPDh02A1taEhIo_BlI8HzgcsQz4wzxw8Of95DPmFeI9yH-969SfQ8E29aCe9OSPjUEqV3kfnIURLIVkTlfIarw/RlDQmqIYryWFpvFE3Gxvl2zRBhCU73p9a6m0WVHt1tE"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/-DzKu9kGTwyEjKqflY5tKQ/NrgZsQVwlC97Yt8OvN-k_QvjZQ5XLkfxO6tUHx2JGsm0KP_grB49nmOuVcSm7-CvezE44YbtK7v1oSaUQhyXHUyegvOZlxXwVft-KW9dwp5XDjpHW1ofTCcx_yrDLPPJk3cqvWXBCvMSHfDy_IzIJA/Z7IHWBRNoIHkddDjC0Uh_44i3yS2JmM-AvE3vr5wNJU"
       },
       {
         "ref": "26519",
         "nom": "Mini Robe Halter Studs",
         "field": "Photos 2",
         "sizeKB": 776,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/Q9kUVjfubsQV4eFRSbO4Eg/KSMk1SkIFR-Exk8CNRx6iz26ZPQ_mxjcxiylsX4YbNNc-8huy2ZqC-wk7QKg93_LsJHHJ118Y0gn3h-HMv6NFfLJD8rRRiygPZSFd4OsK495bQeeKCmoZcGaHjdGInlIGbkurBD6mPCavPaoRafLmA/jMSQd9psqG2QyxIsLsdcH6hg8KRpT7H7kI_Spt4GaLQ"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/cqtf76KMjxIYNj9WZq091A/2C6GqDCcSbvh2D0V-g-ao3d2DT8AaBvOeAdXZHLLoc-y8W06mU7cel1NX49R0epZotmRgUhXC4T_VA1DxZtfVAetQXILqFZ0QNtbyuM4Gp5M2tTFKGkppmsjZBRXiQcqlRb_8FwcsAo2ErkJ6F5vdQ/rGlVf_-vCD4HaETdIK4gmeXwNGemLWx8pkJFT7q5dCo"
       },
       {
         "ref": "26519",
         "nom": "Mini Robe Halter Studs",
         "field": "Photos",
         "sizeKB": 774,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/wep-mlu5ezmv0aXbLSQoeA/9291xtgKNInPLY-Dqb7t-d6qz0QZa5GG7qmHlS13tb8fhxvOSc6DoQEyeyGmp6VsTtPU5Q7fx9s0ZFZDqCHvBMxM0gRAyTrgdIN3fnPo66Ee3m7LCBB1kU_ayek3kiqqLRnUn0OIZXlX7ceDPWtWJQ/nzkzxPdRCAwBJm6bJjiHAZRVnuOYm7Df2wi6oLqNaOg"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/W78r06zCbrQiLCsdw9ibqw/24mlyfEXjjsnOO0MxWtPONuMcidURIzB7tG5WiOJQHGQNGZdKfBQM0Ni9x8mv_tAifmRDK9W9yzUDPm_od052_hq3RYnynyFZgyZxNsLNjFbfeH3er56hMpyOoM6YNMUO52mCiNYFv3adqQphKgfMQ/taeoUBpNw63ifpPcISPyRHIc3KXspB5U7E9x-fI0Zxc"
       },
       {
         "ref": "26393",
         "nom": "Robe Longue Pois Foulard Signature",
         "field": "Photos 2",
         "sizeKB": 772,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/WCl6_Rzo5hrybZIBkVf4sg/YgeXuN_lfNcR3pKdwJDiy1Ue-0ImpBtXaMHn0e2U194brQyolEMPWapFJluBk2PezThc_ZrO7-sg-TmtIbYz40ITz0ICnd7pGrUvv0ItDgxbCywnarlNCOF98O1flP4x_kI_7R1HIpzlPkJ9RwUltw/Df7rltg0-X5iti9XWWU2Z4n3k1S_iShHtZRwCbQclqg"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/r-9x-50ftqKR6YVRClfMGA/Qu5GTgnNQLk8VabBLKD1LS8PPV0Nv1XGwvcqlm-eJLi_OMfZC-KBl78U3bN5opF455d_Au1XaR9vSJPjIqG5JjZvnhvkmlsTfqR4q7KbbmrwQiaMcw61WQbjdcfOK411-ZKUlXHgsj41aEvj2s_UsQ/M_l2pB-rKMuk_0s1Io69gU9jnOAFu8WnB_dThoCW-mE"
       },
       {
         "ref": "26371",
         "nom": "Robe bustier florale à volants",
         "field": "Photos",
         "sizeKB": 676,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/q2QyeE0QhziXi5s3O7Ks0g/dQhtgWEaImGP-Hqce5mr5OV9CgIn_bSG8kSzo9XLDTydxuGhPqISk9TIazBQkZhkwNyh858Y0fjU5itsk7cie-__b7FXLhD4cZnLo4K10c2fSjjqTpu0oX0Aw7vT0XxT5PD1lbnpIGruvPRcOY5H7Q/gUaFEeQuVju3I40grKd28ANVQ4DjYJzJZFwt8Mx1N-I"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/9irj12RGNKcZAzcA8MejXw/niFwW02FgYv4KXu4aUJYj5iLxMr7EQ6fVyicgVvt0JcXXhXsFEIWYteL4ylj-yj-8z_Bvq1A-gl38TzacA9XWA4VZpEjMXySaRnDFfcnLE26AJjlkSDP8lUgdSHe_1ZMyKuknx3YLIeQiPf7tfIBSw/7u7jWM17Q9Z1FeAK8q7BQ8YR2Fmv2qsXLSbKu3eCp74"
       },
       {
         "ref": "SW82400",
         "nom": "Top Zippé Sportwear",
         "field": "Photos",
         "sizeKB": 663,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/RQNmR0LeqcWRnlWTbTlhfw/6E7wnsI0baihPYjgOxjJTS6gAjkOWqnZ9ZObyc-iP2F7MRjLeO_u8wEJxYkY2cLo7VQ2jraPjoT9i47b2On2KgI-S90RGEnonMzQZcAntwEodN-0fAoTL1Sp-1lVhgRjZ-UXxYOkO-AlDnqj8Lz4pg/Si7n9_75w-a_o4P5ysH-7fdBby__1sLwWIEG1gjKBOQ"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/SUz_blOa-pCs0F4tGS2Y-g/Ij2ay-MYoeeP_iFDrUUAJsPVmY1y2xzUHyfREV-qF_-K3ebyGK_hMYzB0L2-VP5RoMsd3VPLI_AEhxEsdTm_1Z4FWWVS2WUjnCC6Nr_mqauUcZTV_iNwuMow_2tWTPCVJKWw_biDveW0NznHeGtvNA/fr1hImYVp9rUWd3aN89IwRbRkqvF7jwfyZjtLkjsluw"
       },
       {
         "ref": "SW82400",
         "nom": "Top Zippé Sportwear",
         "field": "Photos 3",
         "sizeKB": 663,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/PUQdXmvkNbk1brO_-x2SXA/ZRLe-PZV2DPwm9_vmD1zbGisnA-f9-6kd1_bvt4kXPNkAZtUfaHhe1xcLIuJNbtB04_qL9f3FGecZYmdNTLhVqA8P1S2IqjKNDCLxloxoeMQ76gkvdXvAuMrjXwUeqZRD6UqmMck6jkvKilM1QfBYg/TYMBfjJm-l3UzxfZMbNCxu87BrwfqXSzYsHm1nWppYg"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/aBMiKIFlGygQ2DuLFkKd7g/9InOns-g0Gx6PgQF_AOsVYCWfOLFizuBQpCldHMQHanr3gUtrHiksS_iCBxNXqoblC8U9ENhnBtEyI-YmOR4flsPGlzxkcsI0QbcA1kf_t_w3XIHy84JlPmPoeblZYrgNxEvL_3q1UxXxJ3xBepysw/C9m5HNoXEcTJRKncR6TUPGPswoH_fZwxwwl1Smkoho4"
       },
       {
         "ref": "SW82401",
         "nom": "Body basique",
         "field": "Photos",
         "sizeKB": 643,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/XVeB8bDakxEIhu_maT7HGg/vtu-3b0UJ5WK47TeYBeJE5oIK38QYdfmlCmIk29GfPPRVgWSfqEVurI8GRGMsPz7Qs0IkJvWieSgljtWtR8iWRLv_cs-VhLopkPBAzMXb7Q41RKvjYsI9do8cGOIeeaLxBioaFvQ6n2oS9L5Gd-C7A/7wV9i8dB-qX3L6bnC-Do8pEhtycSTARNEXdJ4dBCzTk"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/4g7AX7f1Gdl9Vo0weQIHqQ/gWdh65qBcmSvEifTrpy_3KOpgay1eO6tiSiu27-HSB4oo4Zcmc0yUKmlJVcis-kAV3kz3-VbqWc4Z9E6VFk9hSD8rUbkYZCXq-0cm83owO9_ebpY4aXF4pUS_c1xfDmPUx-sQ7JUo172ouy0_Mc54Q/aqkMHuKwHie46ZNmAACjVPi_peSXuKbP_4CCBtWHdFk"
       },
       {
         "ref": "JL090036",
         "nom": "Ensemble Crochet – Top & Short",
         "field": "Photos 3",
         "sizeKB": 642,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/ZH3WavsVft4D42lOVdgStQ/OSwG67oJKTCCFZauboLpJt7SIe4GYBa_yFCmDmV7Jj5DtgHNxe51dUQjvIh_A2HRkxQRwq98B0R5JkWx68M9BF3Ibv-4NwZh4T-OT8plEv-Ddy2I3JEbgBahZrTO4Rdp1-O_JOy3_QCUBmw3SWFNJw/OiosHEtSLa5VHqJiFq2FAesTVdgNnyFsgDGVb0P4iqs"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/mQrpkzyPY1Tf6GdtBG6sFA/41CwcPiWXcSLhViUdQpTvz4yNVWTSPWeVS_fKEVN7CTasafDggwzqG-m1uymGgPayZpd-ykZR9qUXDO1f64pe6NlAVWUB2od2n-Z1_9jxhJ-rQbiTHMZeUNohE8KEhs6owC6Vmzr_hW7OWmeo-qvuQ/WRtOxP2slOKnYjjOoNnLpvm92MOyGV8nCQMxhL5TgWY"
       },
       {
         "ref": "recwvAriiksqoSavV",
         "nom": "Top bustier satin avec cravate",
         "field": "Photos",
         "sizeKB": 636,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/JBBjUxB1JoweXHg20zCmoQ/sAVN0fC1SuAP-HqoBoAwr8Pvhsk8i95lrEH3AejHn9VQCrnNq0iOVVUdyf2vHZDqM9tW4IVQc_oKhNRC9ZY4Qr8fqg81zObn7MzAv7kFTxJoJgkeHZLHS2GzjNEYA_VBsuztJowCsHZu843AEh3ObA/1dJ6XE7WX3sooxwIOS2OW4wVRy5F_XxqOCcL7RxFrPM"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/cdm2fFyRsjh_fsHAiS3g5w/Ehw8HRAfQ73qD9lc31-Abzbt_oBy3nnF1j6LIB-AU03m_JmCDSrKDe7WIXz9BkAPZYygRzZbkMewxlEwAGxkD3uNTsoyTjWlynadjuNZjgI6GkO2Zjf7vMXe1gAxDSxebEDJfDQX2i79cERH_a0uIQ/kXjHBXKbfCaO_bB1Ep2HLvlj4ifalaom_aOJ2YSD0bA"
       },
       {
         "ref": "26536",
         "nom": "Top Halter Laced",
         "field": "Photos",
         "sizeKB": 623,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/mBAM4zWzv32KLKT_nYDzNA/yjm7ajQbqYkqeWdUht3TRI3CqzwqVhS6kBCshTWCEEAimDOoXSvtpl2uWpGMNnFrILbRy8yaH-7jFzveQFpyrBX6gTxw-dxTNjIzBgN38BaSYyyV6i02TLsU9DY0edmhorohILIsi8eMHUWBAN7oXQ/KTTLQt53vdeoEv_sWIv313jIHHUGUO_zVnqlnn6yytk"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/Pw2SjO97bSHjC01tCqJeXQ/K9LmpMS73eJiBrbze4Y_L0CArFGibtC0nh3QHoi0Twxys3yta7d7JQzi_f0ESny8xRsACO9gKe3X1PRywGydg6AriP9hHi2W-aovWUfmkIH4JABEwBJgMXdPgv2W5IjQgV1Smjg1Mbs7Npb2GjG49Q/zXulmjIwlz6XNXJZJ4g3hgYnFHrDMd1tey_AbGB43bs"
       },
       {
         "ref": "recqULneyd0siis64",
         "nom": "Body velour bretelle dentelle",
         "field": "Photos",
         "sizeKB": 616,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/1SsuGgQksyyb5_HawZr_Rw/_cR29jr_2G5MTfDbJ8VmJYYtssAxHXAd05uZGrucmuKVSHR1aR07DOutsjLTHq1PHEJ1kpvNJGfKYlXGamQgRxn-kDHNJrpFHlDIAutfxjFtEpuiO8Gs0QfJKKEVjYEJw4zecznCQU6loVYEcxQEDA/2zFd96522Eb0s0voVFslW9qdPGos1sxzWB0TTEHMulU"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/2JPVN_KrWBOLkp_DsxEbvg/RmcjJNFHby278FN8pcTzcaI2baXX5nY9W-yWD5p8d3CGZarJIhj_-_BuEJ5zhsJC1lZW_HKLI4Xk1zmH-QqahDgt7355Kihr9gzCthecJM6Knjv0gwmcQTGpCEFuSqV-aikDXuv2hGnKsWJf-RmbtQ/4naAFRyaMYCnVLkfiF8Zd3lWLHbQviaPZY4h-x3Pidw"
       },
       {
         "ref": "26371",
         "nom": "Robe bustier florale à volants",
         "field": "Photos 2",
         "sizeKB": 614,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/YFPPzA2sOpptMb_P55Y-3g/E0UNreRUHgDekrKvWbtLXGihu6sOE7LGFq8uzshJxJp4iMuCTESSidQObNMHiBB-865xuk3NlV1_8kG6f-cGQVr7ufOoUPkrmEksiYAcb1bm7o83O3KUDD_WmjjEgEJLqkeqLb1xZObM16SpvBj5wA/lZNelVvWrvV660CV2nG0WH1zGtpH7YCUAlOxQbjBuSI"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/CP1DRafwekP-FVZ-Bq4ZNg/ErA0Nksn7AwTkZHbunnZmtCbjWRmvlwlWSJ1oLtueluIKj7PJ8TlttgZ2cDrUC7IQ9TYTqNesb89v1kZ7LfsLz-uvQA-9RiYStAPmvnZI5c2QQ2JVrjmmSefHidKN__DRBhGBp_LhYnDfaEYp5NOBw/Cx08a2CazfI6Ajzrq1pCuJnn7hc2JSra3iaCqNRPW3o"
       },
       {
         "ref": "26369",
         "nom": "Ensemble top corset et jupe florale",
         "field": "Photos",
         "sizeKB": 607,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/F4RVqltdy1HBtIyxg2km3w/Hwo6zLbyEUuxrre77BV_yCS77dLpddvwISn8ajwT5xGpW88pxIyMbvadV4vZyVNHaj3crXmDDgjtk-jTqUGZk_-fe32eIP3l7cDUgDAH__IAPP5D9LTSnmEdQrXsfO2srdDzbQ6UFyhKSTRzvuydlA/_T9XBQFPsPxz5ZFeVFrYzwktIs_7Rd4EsfDVhVDkv10"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/j79KG4cP5WFB8KN_JkI8Og/VtAKxi2vYl3bNlUfdYNtpu3dDMrnDVc_vr5_xmznxELBLV380xEK2YvDe1t1QMWYoh_drsDfdGoyxVWhwRyttVD7skgVnQKWAcRlrsLVVTGB3I97sfZVDZakFTeQvoGsiadhDtxbPDckQqPOO4JJCw/ty5fcgwmxw-O1pSoJNdgAk7Rb8Z9QxLNNloMyVYyYzY"
       },
       {
         "ref": "26387",
         "nom": "Robe à pois décolleté",
         "field": "Photos 2",
         "sizeKB": 606,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/tyj51YXty-b3xK4ZiFCuqg/RSFfxNR-bnENiMGlB35xve2ZjoX1nvM0JYjD9dtBzEBdPQMlD5GVeT3PJ-Xh6Bn549PNzu8etXQFL_-XlsK8R7pvRanbamUSmXTzegwIx9zIglx3ROUnPf6Nj86Lw6698uvm5jGXECz9F4g3x4PiKQ/n1MCeBWyfn8r-JDtWoNIVCiPRqiiX8_6tyF8j1TyHZ8"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/I6JCHIseMAx58xI4VpgTaw/8xu56TgL_fb2zvMu6YpMGTv6wpCuTErTAOffAt4sjzBYu075TR79OrXf8WtMTOWjSWD5Qjs1CkAR9kI7q3WnYRelamGL4GlFNwhd_uc3-lsO4aipo5FaBHkvyfJOlD69jISwtQfugj0Hj8m_KG-qbg/OVWxuwX9GKOQP0mswCONuzQPum601DDOYXbEn0a01j4"
       },
       {
         "ref": "26387",
         "nom": "Robe à pois décolleté",
         "field": "Photos 3",
         "sizeKB": 603,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/eN9X0ulHTwAv6aZq0LjkVQ/M49NBwojFnmuZc0OmYAY6Gbv9ej3j9_Jme28f6Q53H115eibiw5GH2AYRH_8Luk0SyM9B5b7Wz1ABfZpqdH-P7m_1aRSWH5LnB2HbJLXEr00gUh6tMWV9VpNj0rsTOdFqfL0F-GTsDjP7BCjzlAs-Q/RyX5RoO3SIdWd7mm2zOsgqV12jtpLC_gHZLwLs1ZOwM"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/RDZGt5qUeFNM0tTZx-E5PQ/NwapGNlXYC0QSTkD9vjzs6-8DNYg88mUpIdoBaaRFBRy-NqLENQE_HdGqQLqe1qvEXX35keiForoWFAmiEYuqDZm2Xb1UhCYaih1P5VtVHheOXwXN2VDYFunLeQYTYKXoxNb8zZqYmwhZWE90eJSrw/K8rtgkGDoj0Jv1tho6g58Fx1TMewIJo8K478-VwXzO0"
       },
       {
         "ref": "recQJOOwROg7fKHjK",
         "nom": "Body manche longue motif damier",
         "field": "Photos",
         "sizeKB": 599,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/wHI4S-xADXAH0s1rDVdAVw/HdDq11USFXZ9VUvp9pLNsekqca_3b3f1BBhM0hTPeIj7730Y4o9-uqKFyfQRcupxLxyF5t-61J3j57nNs7JXwsio43WZnw9tXIn1HXWkGatGpiECnga3s7bJyr65GdeV9ZUS0llLtVzfJ9U2Tt-l7w/y8EAprdAl7ECE0rAHczo3OFO-PCqY_uM34PYKSETl40"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/pTk50VvNczkC8F8ADrZeYw/w42W6SSCpmWNUpFMpXipPFARtt_cLCLvvN3i3Lw5Qy__O5Z_zoX-UMsMLAnkwEoUoyhvpV4hX7AgPG0Dku1s4Xt3F_SPcHHtcr6FUjcPHtP5QIuPtpsYmSDzKNdiBAt5Y36x648BBMW05QU0ymE38A/rUhv7hg45GyogPk0EscHCNzTdCr2PdJGktqQwXGkpIw"
       },
       {
         "ref": "26387",
         "nom": "Robe à pois décolleté",
         "field": "Photos",
         "sizeKB": 595,
-        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790697600000/5RwYZZIv_goD0QsBHOQGJg/TUS9qMzVSj41d_N69Ygp1a9xFpusVX07nUHQ8klBpyHig-cCGZTLgq7X9F1EanG91BPIWlhhgpnQAdQvs2VrX0M0R1WvBeUEfOKNB_ZwS-S4W_P_GJ8Z3TsIoI-Y4w-ISV-xBqkQNV7wFmywpVFMIA/yk07SrABbuNxzXeZEtk2UGoUWDGGhLyCd6a_YsmIitg"
+        "url": "https://v5.airtableusercontent.com/v3/u/57/57/1790791200000/ZgzrNGkaMHOvOgL2dWxYMQ/QEnGwHvAdFGwiQGCU25csYizm78sYbGQnVWwY8SKnLpnfk8kpehNAKx5U7oKMvlgTa_CvsfP9P3OytrQXnedmtfYAvJswZPoJng76l1Ol4E5f88gEssQ3FKXoVtLt902acqg5_JqRbEdNOkwB_X9xg/M2J28UbctCpnPmmQ8Hcml2mWl2Yl-0x-KjiscXGS2FM"
       }
     ]
   }
