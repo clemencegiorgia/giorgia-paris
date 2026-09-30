@@ -1,4 +1,3 @@
-[choisir-son-grossiste-pret-a-porter-feminin.md](https://github.com/user-attachments/files/32860562/choisir-son-grossiste-pret-a-porter-feminin.md)
 ---
 slug: choisir-son-grossiste-pret-a-porter-feminin
 title: "Choisir son grossiste en prêt-à-porter féminin : 6 critères pour protéger vos marges"
