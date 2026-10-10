@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-10-10T21:09:14.750Z",
-  "count": 28,
+  "generatedAt": "2026-10-10T21:17:12.680Z",
+  "count": 29,
   "version": 3,
   "imagePipeline": {
-    "downloaded": 321,
+    "downloaded": 324,
     "cached": 3,
     "failed": 0,
-    "compressionSavedKB": 52744
+    "compressionSavedKB": 54085
   },
   "imageAudit": {
-    "totalImages": 322,
-    "measured": 322,
-    "totalKB": 68317,
-    "avgKB": 212,
-    "heavyCount": 105,
+    "totalImages": 325,
+    "measured": 325,
+    "totalKB": 69784,
+    "avgKB": 215,
+    "heavyCount": 108,
     "top20Heavy": [
       {
         "ref": "26393",
