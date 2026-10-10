@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-10-10T21:00:32.733Z",
-  "count": 27,
+  "generatedAt": "2026-10-10T21:09:14.750Z",
+  "count": 28,
   "version": 3,
   "imagePipeline": {
-    "downloaded": 318,
+    "downloaded": 321,
     "cached": 3,
     "failed": 0,
-    "compressionSavedKB": 51251
+    "compressionSavedKB": 52744
   },
   "imageAudit": {
-    "totalImages": 319,
-    "measured": 319,
-    "totalKB": 66672,
-    "avgKB": 209,
-    "heavyCount": 102,
+    "totalImages": 322,
+    "measured": 322,
+    "totalKB": 68317,
+    "avgKB": 212,
+    "heavyCount": 105,
     "top20Heavy": [
       {
         "ref": "26393",
@@ -63,6 +63,13 @@
         "field": "Photos",
         "sizeKB": 676,
         "url": "https://v5.airtableusercontent.com/v3/u/58/58/1791676800000/LVH05wxE3Qwt-RZecXZQqQ/xoLMnKWlRCfbOKBgF0H7lTNqPilU51Lc42aDrZbB5MmNXBQMFAQiMmgCFQ0QuacKQ9LchFXXd_N3ATCWRwP8X3YxQBfkGeNtYqv2GFemg6Hfh-FUFjKBUmUODjNIxkLb2dsO3qxJ3eB-IRdCRjJoEA/HoSSGjdM2lWW3bzSyhiVz_cFsim8JPrEHI8IDRbV0Nk"
+      },
+      {
+        "ref": "26588",
+        "nom": "Maxi Robe Halter",
+        "field": "Photos 2",
+        "sizeKB": 663,
+        "url": "https://v5.airtableusercontent.com/v3/u/58/58/1791676800000/ZRO4Tlbl6WPMM2QXBz0h1g/0AVzAVxxQJFQe2wcazpSrGC7f5Str4ox16Fp_-LqTJ76smmQ1rI0sH2JcRQtYcJX-a7eAZw5zLa4IILEX-NmSXXGS5o_HgfYijfZr6uUOEUrcvoOLX-XnBdwk0qBDE7zphaMwj_S-syzXwwCHo_ZDg/Mbl6JTlS36KZ7KWKXyAT0bUHHmtMqBJnCwgQ5x8q80w"
       },
       {
         "ref": "SW82400",
@@ -147,13 +154,6 @@
         "field": "Photos 3",
         "sizeKB": 603,
         "url": "https://v5.airtableusercontent.com/v3/u/58/58/1791676800000/sCcpKBnXhO3KfsOk41D9kQ/OCXIW9xj0YRNYFS0OJv1mz0wLkHAVq0K8FfbR3Zj7Srxd2rudJ6i8E2eSozupM7_cxiSUySoKYvBjuaUmnZFzc6g5rdddIp1zV5-PmPyV8Cy0ia3IMFTXcS_X53qbifSXzqbPQ5clYkI58r0q8Uw1g/g_-3vak4LZWX5C1lctD5Evv4SI95QSoRVgfzuVJYYFc"
-      },
-      {
-        "ref": "recQJOOwROg7fKHjK",
-        "nom": "Body manche longue motif damier",
-        "field": "Photos",
-        "sizeKB": 599,
-        "url": "https://v5.airtableusercontent.com/v3/u/58/58/1791676800000/-bOockEuBIYObKVQHJcpDA/Z_7U9kvHjU9oBJzn64RqC0FeLrka63gCloaNsmpJSdNxcSroShkKDT4zQ4xUw9CG6klGTCt7v1yxMcqiGEetGDWM1KWDlSWzxQgtDY94lkG7iTfLnwepPyOkkFffEch4vyLoEv04JhWtwqRPCCf3sQ/3XAX5fn-0526ly0YMmRuIfEVdsh6E1CKtwuDudIC8Ko"
       }
     ]
   }
