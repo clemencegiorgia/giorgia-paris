@@ -2612,10 +2612,10 @@ async function buildArticles(allRecords) {
  */
 const PARTNER_PLATFORMS = [
   // maxH : hauteur optique en px. Elle diffère par logo car les proportions
-  // sont très inégales (PFS est carré, Efashion en 3:1, Faire en 8:1). Une
+  // sont très inégales (PFS est carré,  en 3:1, Faire en 8:1). Une
   // hauteur uniforme donnerait un alignement visuellement déséquilibré.
   { name: 'Paris Fashion Shops', url: 'https://parisfashionshops.com/fr/femme/marque/giorgia', logo: 'paris-fashion-shops', maxH: 38, maxW: 100 },
-  { name: 'Efashion Paris',      url: 'https://www.efashion-paris.com/fr',                      logo: 'efashion',            maxH: 26, maxW: 120 },
+  { name: 'Efashion Paris',      url: 'https://www.efashion-paris.com/vendeurs/giorgia-2348/giorgia-3694.html?cat=3694&min=0&max=500',                      logo: 'efashion',            maxH: 26, maxW: 120 },
   { name: 'Faire',               url: 'https://www.faire.com/fr/',                              logo: 'faire',               maxH: 16, maxW: 110 },
 ];
 
