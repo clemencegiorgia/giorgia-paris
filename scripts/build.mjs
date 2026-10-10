@@ -3541,7 +3541,7 @@ function renderContactJsonLd() {
       ['Quels sont les délais de livraison ?',
        'Nous expédions rapidement depuis notre stock à Aubervilliers, en France comme dans le monde entier. Le délai dépend de la destination : nous vous le confirmons systématiquement à la validation de votre commande.'],
       ['Puis-je acheter à la pièce ou uniquement par pack ?',
-       'Nos produits sont vendus par pack de 6 pièces (tailles S/M ou M/L au choix). Ce fonctionnement nous permet de proposer des tarifs de gros compétitifs et convient au réassort régulier des boutiques.'],
+       'Nos produits sont vendus par pack de 6 pièces (tailles S/M ou M/L). Ce fonctionnement nous permet de proposer des tarifs de gros compétitifs et convient au réassort régulier des boutiques.'],
       ['Existe-t-il d\'anciennes collections encore disponibles ?',
        'Oui, des pièces de l\'ancienne collection Printemps-Été 2026 restent disponibles au stock. Elles sont rassemblées par catégorie sur la page de cette collection.'],
     ].map(([q, a]) => ({
