@@ -334,7 +334,7 @@ const SEASON = {
   navLabel:      'Nouveautés AH 26-27',          // lien doré de la navbar
   announce:      'La collection Automne-Hiver 2026-2027 est arrivée au showroom', // barre du haut
   announceShort: 'Collection Automne-Hiver 2026-2027',                            // barre du haut, mobile
-  heroSub:       'Manteaux, mailles, robes de soirée et ensembles, par pack de 6 dès 100\u00a0€\u00a0HT. Livraison rapide dans le monde entier depuis Aubervilliers.',
+  heroSub:       'Manteaux, mailles, robes de soirée et ensembles, par pack de couleur dès 100\u00a0€\u00a0HT. Livraison rapide dans le monde entier depuis Aubervilliers.',
 };
 let SEASON_COUNT = 0; // nombre de produits de la saison, calculé dans main()
 
@@ -2104,7 +2104,7 @@ function renderSelectionSection(article, products) {
   h += `<div class="selection-hdr">`;
   h += `<div class="selection-hdr-text">`;
   h += `<span class="selection-pill"><span class="selection-dot"></span>Sélection grossiste · Stock parisien</span>`;
-  h += `<h2 class="selection-title" id="title-${carouselId}">${esc(article.selection_titre || 'La sélection GIORGIA — disponible en pack de 6')}</h2>`;
+  h += `<h2 class="selection-title" id="title-${carouselId}">${esc(article.selection_titre || 'La sélection GIORGIA — disponible en pack')}</h2>`;
   if (article.selection_intro) {
     h += `<p class="selection-sub">${esc(article.selection_intro)}</p>`;
   }
@@ -3541,7 +3541,7 @@ function renderContactJsonLd() {
       ['Quels sont les délais de livraison ?',
        'Nous expédions rapidement depuis notre stock à Aubervilliers, en France comme dans le monde entier. Le délai dépend de la destination : nous vous le confirmons systématiquement à la validation de votre commande.'],
       ['Puis-je acheter à la pièce ou uniquement par pack ?',
-       'Nos produits sont vendus par pack de 6 ou 4 pièces (tailles S/M ou M/L). Ce fonctionnement nous permet de proposer des tarifs de gros compétitifs et convient au réassort régulier des boutiques.'],
+       'Nos produits sont vendus par pack de couleur. Ce fonctionnement nous permet de proposer des tarifs de gros compétitifs et convient au réassort régulier des boutiques.'],
       ['Existe-t-il d\'anciennes collections encore disponibles ?',
        'Oui, des pièces de l\'ancienne collection Printemps-Été 2026 restent disponibles au stock. Elles sont rassemblées par catégorie sur la page de cette collection.'],
     ].map(([q, a]) => ({
