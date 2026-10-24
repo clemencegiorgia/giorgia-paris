@@ -2616,7 +2616,7 @@ const PARTNER_PLATFORMS = [
   // hauteur uniforme donnerait un alignement visuellement déséquilibré.
   { name: 'Paris Fashion Shops', url: 'https://parisfashionshops.com/fr/femme/marque/giorgia', logo: 'paris-fashion-shops', maxH: 38, maxW: 100 },
   { name: 'Efashion Paris',      url: 'https://www.efashion-paris.com/vendeurs/giorgia-2348/giorgia-3694.html?cat=3694&min=0&max=500',                      logo: 'efashion',            maxH: 26, maxW: 120 },
-  { name: 'Faire',               url: 'https://www.faire.com/fr/',                              logo: 'faire',               maxH: 16, maxW: 110 },
+  { name: 'Faire',               url: 'https://www.faire.com/direct/giorgia',                              logo: 'faire',               maxH: 16, maxW: 110 },
 ];
 
 /** Logos partenaires réellement présents sur le disque (rempli au build). */
